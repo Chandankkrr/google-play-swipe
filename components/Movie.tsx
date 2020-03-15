@@ -35,10 +35,10 @@ const Movie = (props: MovieProps) => {
         />
       </View>
       <View>
-        <Text style={{ paddingTop: 5 }}>
+        <Text style={styles.sectionTitle}>
           {title}
         </Text>
-        <Text style={{ color: 'grey' }}>
+        <Text style={styles.sectionSubTitle}>
           {description}
         </Text>
       </View>
@@ -59,6 +59,16 @@ const styles = StyleSheet.create({
     width: 125,
     height: 200,
     borderRadius: 10,
+  },
+  sectionTitle: {
+    fontSize: 14,
+    fontWeight: '300',
+    paddingTop: 15,
+  },
+  sectionSubTitle: {
+    fontSize: 13,
+    fontWeight: '200',
+    color: '#3c709d',
   },
 });
 

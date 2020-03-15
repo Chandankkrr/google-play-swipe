@@ -11,11 +11,14 @@ import {
   TextStyle,
   NativeSyntheticEvent,
   NativeTouchEvent,
+  TouchableOpacity,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+
 
 interface SectionBase {
-    content: string;
-    styles?: StyleProp<TextStyle>;
+  content: string;
+  styles?: StyleProp<TextStyle>;
 }
 
 interface SectionTitle extends SectionBase { }
@@ -23,14 +26,14 @@ interface SectionTitle extends SectionBase { }
 interface SectionSubTitle extends SectionBase { }
 
 interface SectionButton extends SectionBase {
-    onPress: (ev: NativeSyntheticEvent<NativeTouchEvent>) => void;
-    color?: string;
+  onPress: (ev: NativeSyntheticEvent<NativeTouchEvent>) => void;
+  color?: string;
 }
 
 interface SectionHeaderProps {
-    title: SectionTitle,
-    subTitle: SectionSubTitle,
-    button: SectionButton
+  title: SectionTitle,
+  subTitle: SectionSubTitle,
+  button: SectionButton
 }
 
 const SectionHeader = (props: SectionHeaderProps) => {
@@ -50,11 +53,14 @@ const SectionHeader = (props: SectionHeaderProps) => {
         </Text>
       </View>
       <View>
-        <Button
+        <TouchableOpacity
           title={button.content}
           color={button.color ? button.color : 'grey'}
           onPress={button.onPress}
-        />
+          underlayColor="#042417"
+        >
+          {!button.content && <Ionicons name="md-arrow-forward" size={28} color="#dedada" />}
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -68,11 +74,11 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: '400',
   },
   headerSubTitle: {
     fontSize: 14,
-    fontWeight: '300',
+    fontWeight: '200',
   },
 });
 

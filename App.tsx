@@ -9,10 +9,13 @@ import {
   ScrollView,
   Image,
   Animated,
+  Alert,
 } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import SectionHeader from './components/SectionHeader';
 import Movie from './components/Movie';
 import data from './data';
+
 
 export default function App() {
   const [scrollX] = useState(new Animated.Value(0));
@@ -22,61 +25,66 @@ export default function App() {
     extrapolate: 'clamp',
   });
 
+  const gradientColor = scrollX.interpolate({
+    inputRange: [0, 100],
+    outputRange: ['#019ae6', '#33afed'],
+    extrapolate: 'clamp',
+  });
+
   return (
     <View style={styles.container}>
-      <View style={styles.component}>
-        <SectionHeader
-          title={{
-            content: data.headerTitle,
-          }}
-          subTitle={{
-            content: data.headerSubtitle,
-          }}
-          button={{
-            content: '>',
-            onPress: () => console.log('Pressed'),
-          }}
-        />
-        <Animated.View style={[styles.fixed, { opacity: imageOpacity }]}>
-          <Image
-            style={styles.illustrationImage}
-            source={{ uri: 'https://assets-ouch.icons8.com/preview/408/f73e918d-4493-4902-9d53-6facb9dc6b27.png' }}
+      <LinearGradient
+        colors={['#019ae6', '#33afed']}
+        style={{ flex: 0.5 }}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
+      >
+        <Animated.View style={[styles.component, { backgroundColor: gradientColor }]}>
+          <SectionHeader
+            title={{
+              content: data.headerTitle,
+            }}
+            subTitle={{
+              content: data.headerSubtitle,
+            }}
+            button={{
+              content: '',
+              onPress: () => Alert.alert('Simple Button pressed'),
+            }}
           />
-        </Animated.View>
-        <ScrollView
-          showsHorizontalScrollIndicator={false}
-          horizontal
-          style={styles.playSwipeContainer}
-          scrollEventThrottle={16}
-          onScroll={Animated.event(
-            [{
-              nativeEvent: {
-                contentOffset: {
-                  x: scrollX,
+          <Animated.View style={[styles.fixed, { opacity: imageOpacity }]}>
+            <Image
+              style={styles.illustrationImage}
+              source={{ uri: 'https://assets-ouch.icons8.com/preview/408/f73e918d-4493-4902-9d53-6facb9dc6b27.png' }}
+            />
+          </Animated.View>
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            horizontal
+            style={styles.playSwipeContainer}
+            scrollEventThrottle={16}
+            onScroll={Animated.event(
+              [{
+                nativeEvent: {
+                  contentOffset: {
+                    x: scrollX,
+                  },
                 },
-              },
-            }],
-          )}
-        >
-          {data.data.map((item, index) => (index === 0
-            ? (
+              }],
+            )}
+          >
+            {data.data.map((item, index) => (
               <Movie
                 title={item.title}
                 description={item.description}
                 imageSource={{ uri: item.imageSource }}
-                style={{ marginLeft: 200 }}
+                style={index === 0 ? ({ marginLeft: 200 }) : null}
                 key={item.title}
               />
-            ) : (
-              <Movie
-                title={item.title}
-                description={item.description}
-                imageSource={{ uri: item.imageSource }}
-                key={item.title}
-              />
-            )))}
-        </ScrollView>
-      </View>
+            ))}
+          </ScrollView>
+        </Animated.View>
+      </LinearGradient>
     </View>
   );
 }
@@ -90,7 +98,7 @@ const styles = StyleSheet.create({
   component: {
     flex: 1,
     // backgroundColor: '#21D4FD',
-    padding: 10,
+    padding: 15,
   },
   header: {
     // flex: 1,
