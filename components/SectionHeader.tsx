@@ -59,7 +59,7 @@ const SectionHeader = (props: SectionHeaderProps) => {
           onPress={button.onPress}
           underlayColor="#042417"
         >
-          {!button.content && <Ionicons name="md-arrow-forward" size={28} color="#dedada" />}
+          {!button.content && <Ionicons name="md-arrow-forward" size={28} color="#58646e" />}
         </TouchableOpacity>
       </View>
     </View>
