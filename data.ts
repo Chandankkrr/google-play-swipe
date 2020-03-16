@@ -1,4 +1,16 @@
-const data = {
+export interface DataType {
+    headerTitle: string;
+    headerSubtitle: string;
+    data: ContentType[]
+}
+
+export interface ContentType{
+  title: string;
+        description: string;
+        imageSource: string;
+}
+
+const data: DataType = {
   headerTitle: 'Rentals from $0.99',
   headerSubtitle: 'Discover a new favourite',
   data: [
@@ -9,7 +21,7 @@ const data = {
     },
     {
       title: 'The Vanishing',
-      description: '̶$$1.99',
+      description: '$1.99',
       imageSource: 'http://thegioibluray.com/resources/200ceb26807d6bf99fd6f4f0d1ca54d4/1%202D25G/B3864N.JPG',
     },
     {

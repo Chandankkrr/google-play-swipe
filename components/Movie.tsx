@@ -12,6 +12,7 @@ import {
   NativeTouchEvent,
   StyleProp,
   ViewStyle,
+  TouchableOpacity,
 } from 'react-native';
 
 interface MovieProps {
@@ -24,24 +25,28 @@ interface MovieProps {
 
 const Movie = (props: MovieProps) => {
   const {
-    title, description, imageSource, style,
+    title, description, imageSource, style, onClick,
   } = props;
   return (
     <View style={[styles.section, style]}>
-      <View>
-        <Image
-          source={imageSource}
-          style={styles.swipeImage}
-        />
-      </View>
-      <View>
-        <Text style={styles.sectionTitle}>
-          {title}
-        </Text>
-        <Text style={styles.sectionSubTitle}>
-          {description}
-        </Text>
-      </View>
+      <TouchableOpacity
+        onPress={onClick}
+      >
+        <View>
+          <Image
+            source={imageSource}
+            style={styles.swipeImage}
+          />
+        </View>
+        <View>
+          <Text style={styles.sectionTitle}>
+            {title}
+          </Text>
+          <Text style={styles.sectionSubTitle}>
+            {description}
+          </Text>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 };

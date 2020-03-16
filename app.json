@@ -13,6 +13,7 @@
       "android",
       "web"
     ],
-    "description": ""
+    "description": "React Native component that renders Google Play Movie layout",
+    "githubUrl": "https://github.com/Chandankkrr/google-play-swipe"
   }
 }
