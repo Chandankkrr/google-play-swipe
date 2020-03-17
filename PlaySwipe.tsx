@@ -10,7 +10,6 @@ import {
   ScrollView,
   Image,
   Animated,
-  Alert,
   Platform,
   Dimensions,
   NativeSyntheticEvent,
@@ -19,96 +18,153 @@ import {
   StyleProp,
   ViewStyle,
   ImageStyle,
+  TouchableOpacity,
+  TextStyle,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import SectionHeader from './components/SectionHeader';
+import SectionHeader, { SectionTitle, SectionSubTitle } from './components/SectionHeader';
 import Movie from './components/Movie';
-import { DataType } from './data';
+import { DataType, ContentType } from './data';
 
 interface ContentImage {
-    contentImageSource: ImageSourcePropType,
-    contentImageStyles?: StyleProp<ImageStyle>;
-    contentImageContainerStyles?: StyleProp<ViewStyle>;
+  contentImageSource: ImageSourcePropType,
+  contentImageStyles?: StyleProp<ImageStyle>;
+  contentImageContainerStyles?: StyleProp<ViewStyle>;
+}
+
+interface GradientPoint {
+  x: number,
+  y: number
+}
+interface BackgroundGradient {
+  gradientColors?: string[];
+  gradientStart?: GradientPoint
+  gradientEnd?: GradientPoint;
+  backgroundGradientStyle?: StyleProp<ViewStyle>;
+}
+
+interface Header {
+  headerTitle: SectionTitle,
+  headerSubTitle: SectionSubTitle,
+  headerButton: JSX.Element,
+  headerStyles: StyleProp<ViewStyle>
+}
+
+export interface SectionType {
+  title: string;
+  description: string;
+  imageSource: ImageSourcePropType;
+  key: string | number;
+  onClick?: (ev: NativeSyntheticEvent<NativeTouchEvent>) => void;
+  style?: {
+    sectionStyle?: StyleProp<ViewStyle>,
+    sectionImageStyle?: StyleProp<ImageStyle>,
+    sectionTitleStyle?: StyleProp<TextStyle>,
+    sectionSubTitleStyle?: StyleProp<TextStyle>
+  }
 }
 
 interface PlaySwipeProps {
   content: DataType,
-  firstItemStyle: StyleProp<ViewStyle>,
   contentImage: ContentImage;
-  backgroundGradient?: string[];
+  header: Header,
+  sectionItems: SectionType[],
+  // firstItemStyle?: StyleProp<ViewStyle>,
+  backgroundGradient?: BackgroundGradient;
   imageOpacityInterpolation?: Animated.InterpolationConfigType,
   gradientColorInterpolation?: Animated.InterpolationConfigType,
   imagePositionInterpolation?: Animated.InterpolationConfigType,
-  sectionHeaderOnClick: (ev: NativeSyntheticEvent<NativeTouchEvent>) => void;
-  sectionItemOnClick: (ev: NativeSyntheticEvent<NativeTouchEvent>) => void;
+  scrollViewStyles: StyleProp<ViewStyle>,
+  // sectionItemOnClick: (ev: NativeSyntheticEvent<NativeTouchEvent>) => void;
 }
 
 export default function PlaySwipe(props: PlaySwipeProps) {
   const {
-    content,
+    header,
     contentImage,
-    firstItemStyle,
+    sectionItems,
     backgroundGradient,
     imageOpacityInterpolation,
     gradientColorInterpolation,
     imagePositionInterpolation,
-    sectionHeaderOnClick,
-    sectionItemOnClick,
+    scrollViewStyles,
   } = props;
-  const { contentImageSource, contentImageStyles, contentImageContainerStyles } = contentImage;
+  const {
+    contentImageSource,
+    contentImageStyles,
+    contentImageContainerStyles,
+  } = contentImage;
+  const {
+    headerTitle, headerSubTitle, headerButton, headerStyles,
+  } = header;
   const [scrollX] = useState(new Animated.Value(0));
-  const imageOpacity = imageOpacityInterpolation || scrollX.interpolate({
-    inputRange: [0, 100],
-    outputRange: [1, 0.3],
-    extrapolate: 'clamp',
-  });
+  const imageOpacity = imageOpacityInterpolation
+    ? scrollX.interpolate(imageOpacityInterpolation)
+    : scrollX.interpolate({
+      inputRange: [0, 100],
+      outputRange: [1, 0.3],
+      extrapolate: 'clamp',
+    });
 
-  const gradientColor = gradientColorInterpolation || scrollX.interpolate({
-    inputRange: [0, 100],
-    outputRange: ['#019ae6', '#33afed'],
-    extrapolate: 'clamp',
-  });
+  const imagePosition = imagePositionInterpolation
+    ? scrollX.interpolate(imagePositionInterpolation)
+    : scrollX.interpolate({
+      inputRange: [0, 100],
+      outputRange: [0, -50],
+      extrapolate: 'clamp',
+    });
 
-  const imagePosition = imagePositionInterpolation || scrollX.interpolate({
-    inputRange: [0, 100],
-    outputRange: [0, -50],
-    extrapolate: 'clamp',
-  });
+  const gradientColor = gradientColorInterpolation
+    ? scrollX.interpolate(gradientColorInterpolation)
+    : scrollX.interpolate({
+      inputRange: [0, 100],
+      outputRange: ['#019ae6', '#33afed'],
+      extrapolate: 'clamp',
+    });
+
 
   const SPACING_FOR_CARD_INSET = Dimensions.get('window').width * 0.1 - 10;
+  const {
+    gradientColors,
+    backgroundGradientStyle,
+    gradientStart,
+    gradientEnd,
+  } = backgroundGradient;
 
   return (
     <LinearGradient
-      colors={backgroundGradient || ['#019ae6', '#33afed']}
-      style={{ flex: 0.5 }}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 0 }}
+      colors={gradientColors || ['#019ae6', '#33afed']}
+      style={[{ flex: 0.5 }, backgroundGradientStyle]}
+      start={gradientStart || { x: 0, y: 0 }}
+      end={gradientEnd || { x: 1, y: 0 }}
     >
-      <Animated.View style={[styles.component, { backgroundColor: gradientColor }]}>
+      <Animated.View style={[
+        headerStyles || styles.component,
+        { backgroundColor: gradientColor }]}
+      >
         <SectionHeader
           title={{
-            content: content.headerTitle,
+            content: headerTitle.content,
+            styles: headerTitle.styles,
           }}
           subTitle={{
-            content: content.headerSubtitle,
+            content: headerSubTitle.content,
+            styles: headerSubTitle.styles,
           }}
-          button={{
-            content: '',
-            onPress: sectionHeaderOnClick,
-          }}
+          button={headerButton}
         />
-        <Animated.View style={[contentImageContainerStyles || styles.fixed,
+        <Animated.View style={[styles.fixed, contentImageContainerStyles,
           { opacity: imageOpacity, left: imagePosition }]}
         >
           <Image
-            style={contentImageStyles || styles.illustrationImage}
+            style={[styles.illustrationImage, contentImageStyles]}
             source={contentImageSource}
           />
         </Animated.View>
         <ScrollView
           showsHorizontalScrollIndicator={false}
           horizontal
-          style={styles.playSwipeContainer}
+          style={[styles.playSwipeContainer, scrollViewStyles]}
           scrollEventThrottle={16}
           onScroll={Animated.event(
             [{
@@ -131,14 +187,17 @@ export default function PlaySwipe(props: PlaySwipeProps) {
             paddingHorizontal: Platform.OS === 'android' ? SPACING_FOR_CARD_INSET : 0,
           }}
         >
-          {content.data.map((item, index) => (
+          {sectionItems.map((item) => (
             <Movie
               title={item.title}
               description={item.description}
-              imageSource={{ uri: item.imageSource }}
-              style={index === 0 ? firstItemStyle : null}
+              imageSource={item.imageSource}
+              style={{
+                sectionStyle: item.style.sectionStyle,
+
+              }}
               key={item.title}
-              onClick={sectionItemOnClick}
+              onClick={item.onClick}
             />
           ))}
         </ScrollView>
@@ -148,35 +207,12 @@ export default function PlaySwipe(props: PlaySwipeProps) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'skyblue',
-    paddingTop: 50,
-  },
   component: {
     flex: 1,
-    // backgroundColor: '#21D4FD',
+    backgroundColor: '#21D4FD',
     padding: 15,
   },
-  header: {
-    // flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  headerSubTitle: {
-    fontSize: 14,
-    fontWeight: '300',
-  },
-  discoverButton: {
-    width: 10,
-  },
   playSwipeContainer: {
-    flex: 1,
-    flexDirection: 'row',
     backgroundColor: 'transparent',
     paddingTop: 10,
   },
@@ -186,11 +222,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     padding: 10,
-    borderRadius: 10,
-  },
-  swipeImage: {
-    width: 125,
-    height: 200,
     borderRadius: 10,
   },
   illustrationImage: {

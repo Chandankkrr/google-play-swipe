@@ -1,13 +1,13 @@
 export interface DataType {
-    headerTitle: string;
-    headerSubtitle: string;
-    data: ContentType[]
+  headerTitle: string;
+  headerSubtitle: string;
+  data: ContentType[]
 }
 
-export interface ContentType{
+export interface ContentType {
   title: string;
-        description: string;
-        imageSource: string;
+  description: string;
+  imageSource: string;
 }
 
 const data: DataType = {

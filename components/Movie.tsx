@@ -13,6 +13,8 @@ import {
   StyleProp,
   ViewStyle,
   TouchableOpacity,
+  ImageStyle,
+  TextStyle,
 } from 'react-native';
 
 interface MovieProps {
@@ -20,29 +22,40 @@ interface MovieProps {
     description: string;
     imageSource: ImageSourcePropType;
     onClick?: (ev: NativeSyntheticEvent<NativeTouchEvent>) => void;
-    style?: StyleProp<ViewStyle>;
+    style?: {
+      sectionStyle?: StyleProp<ViewStyle>,
+      sectionImageStyle?: StyleProp<ImageStyle>,
+      sectionTitleStyle?: StyleProp<TextStyle>,
+      sectionSubTitleStyle?: StyleProp<TextStyle>,
+    }
 }
 
 const Movie = (props: MovieProps) => {
   const {
     title, description, imageSource, style, onClick,
   } = props;
+  const {
+    sectionStyle,
+    sectionImageStyle,
+    sectionTitleStyle,
+    sectionSubTitleStyle,
+  } = style;
   return (
-    <View style={[styles.section, style]}>
+    <View style={[styles.section, sectionStyle]}>
       <TouchableOpacity
         onPress={onClick}
       >
         <View>
           <Image
             source={imageSource}
-            style={styles.swipeImage}
+            style={[styles.swipeImage, sectionImageStyle]}
           />
         </View>
         <View>
-          <Text style={styles.sectionTitle}>
+          <Text style={[styles.sectionTitle, sectionTitleStyle]}>
             {title}
           </Text>
-          <Text style={styles.sectionSubTitle}>
+          <Text style={[styles.sectionSubTitle, sectionSubTitleStyle]}>
             {description}
           </Text>
         </View>
