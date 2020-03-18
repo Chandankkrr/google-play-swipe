@@ -1,12 +1,10 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-use-before-define */
 /* eslint-disable import/extensions */
 /* eslint-disable import/no-unresolved */
-/* eslint-disable no-use-before-define */
-/* eslint-disable react/jsx-filename-extension */
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import {
   StyleSheet,
-  View,
   ScrollView,
   Image,
   Animated,
@@ -18,13 +16,12 @@ import {
   StyleProp,
   ViewStyle,
   ImageStyle,
-  TouchableOpacity,
   TextStyle,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import SectionHeader, { SectionTitle, SectionSubTitle } from './components/SectionHeader';
-import Movie from './components/Movie';
-import { DataType, ContentType } from './data';
+import Section from './components/Section';
+import { DataType } from './data';
 
 interface ContentImage {
   contentImageSource: ImageSourcePropType,
@@ -32,15 +29,9 @@ interface ContentImage {
   contentImageContainerStyles?: StyleProp<ViewStyle>;
 }
 
-interface GradientPoint {
-  x: number,
-  y: number
-}
-interface BackgroundGradient {
-  gradientColors?: string[];
-  gradientStart?: GradientPoint
-  gradientEnd?: GradientPoint;
-  backgroundGradientStyle?: StyleProp<ViewStyle>;
+interface BackgroundTransition {
+  transitionColors?: string[];
+  transitionStyles?: StyleProp<ViewStyle>;
 }
 
 interface Header {
@@ -50,18 +41,26 @@ interface Header {
   headerStyles: StyleProp<ViewStyle>
 }
 
+interface SectionStyles {
+  sectionStyle?: StyleProp<ViewStyle>,
+  sectionImageStyle?: StyleProp<ImageStyle>,
+  sectionTitleStyle?: StyleProp<TextStyle>,
+  sectionSubTitleStyle?: StyleProp<TextStyle>
+}
+
 export interface SectionType {
   title: string;
   description: string;
   imageSource: ImageSourcePropType;
   key: string | number;
   onClick?: (ev: NativeSyntheticEvent<NativeTouchEvent>) => void;
-  style?: {
-    sectionStyle?: StyleProp<ViewStyle>,
-    sectionImageStyle?: StyleProp<ImageStyle>,
-    sectionTitleStyle?: StyleProp<TextStyle>,
-    sectionSubTitleStyle?: StyleProp<TextStyle>
-  }
+  sectionStyles?: SectionStyles
+}
+
+interface HorizontalScrollInterpolations {
+  imageOpacityInterpolation?: Animated.InterpolationConfigType,
+  backgroundTransitionColorInterpolation?: Animated.InterpolationConfigType,
+  imagePositionInterpolation?: Animated.InterpolationConfigType,
 }
 
 interface PlaySwipeProps {
@@ -69,13 +68,9 @@ interface PlaySwipeProps {
   contentImage: ContentImage;
   header: Header,
   sectionItems: SectionType[],
-  // firstItemStyle?: StyleProp<ViewStyle>,
-  backgroundGradient?: BackgroundGradient;
-  imageOpacityInterpolation?: Animated.InterpolationConfigType,
-  gradientColorInterpolation?: Animated.InterpolationConfigType,
-  imagePositionInterpolation?: Animated.InterpolationConfigType,
+  backgroundTransition?: BackgroundTransition;
+  interpolations?: HorizontalScrollInterpolations;
   scrollViewStyles: StyleProp<ViewStyle>,
-  // sectionItemOnClick: (ev: NativeSyntheticEvent<NativeTouchEvent>) => void;
 }
 
 export default function PlaySwipe(props: PlaySwipeProps) {
@@ -83,21 +78,29 @@ export default function PlaySwipe(props: PlaySwipeProps) {
     header,
     contentImage,
     sectionItems,
-    backgroundGradient,
-    imageOpacityInterpolation,
-    gradientColorInterpolation,
-    imagePositionInterpolation,
+    backgroundTransition,
+    interpolations,
     scrollViewStyles,
   } = props;
+
   const {
     contentImageSource,
     contentImageStyles,
     contentImageContainerStyles,
   } = contentImage;
+
   const {
     headerTitle, headerSubTitle, headerButton, headerStyles,
   } = header;
+
+  const {
+    imageOpacityInterpolation,
+    backgroundTransitionColorInterpolation,
+    imagePositionInterpolation,
+  } = interpolations || {};
+
   const [scrollX] = useState(new Animated.Value(0));
+
   const imageOpacity = imageOpacityInterpolation
     ? scrollX.interpolate(imageOpacityInterpolation)
     : scrollX.interpolate({
@@ -114,95 +117,97 @@ export default function PlaySwipe(props: PlaySwipeProps) {
       extrapolate: 'clamp',
     });
 
-  const gradientColor = gradientColorInterpolation
-    ? scrollX.interpolate(gradientColorInterpolation)
+  const SPACING_FOR_CARD_INSET = Dimensions.get('window').width * 0.1 - 10;
+  const {
+    transitionColors = ['#019ae6', '#33afed'],
+  } = backgroundTransition || {};
+
+  const transitionColor = backgroundTransitionColorInterpolation
+    ? scrollX.interpolate(backgroundTransitionColorInterpolation)
     : scrollX.interpolate({
       inputRange: [0, 100],
-      outputRange: ['#019ae6', '#33afed'],
+      outputRange: transitionColors,
       extrapolate: 'clamp',
     });
 
-
-  const SPACING_FOR_CARD_INSET = Dimensions.get('window').width * 0.1 - 10;
-  const {
-    gradientColors,
-    backgroundGradientStyle,
-    gradientStart,
-    gradientEnd,
-  } = backgroundGradient;
-
   return (
-    <LinearGradient
-      colors={gradientColors || ['#019ae6', '#33afed']}
-      style={[{ flex: 0.5 }, backgroundGradientStyle]}
-      start={gradientStart || { x: 0, y: 0 }}
-      end={gradientEnd || { x: 1, y: 0 }}
+    <Animated.View style={[
+      headerStyles || styles.component,
+      { backgroundColor: transitionColor }]}
     >
-      <Animated.View style={[
-        headerStyles || styles.component,
-        { backgroundColor: gradientColor }]}
+      <SectionHeader
+        title={{
+          content: headerTitle.content,
+          styles: headerTitle.styles,
+        }}
+        subTitle={{
+          content: headerSubTitle.content,
+          styles: headerSubTitle.styles,
+        }}
+        button={headerButton}
+      />
+      <Animated.View style={[styles.fixed, contentImageContainerStyles,
+        { opacity: imageOpacity, left: imagePosition }]}
       >
-        <SectionHeader
-          title={{
-            content: headerTitle.content,
-            styles: headerTitle.styles,
-          }}
-          subTitle={{
-            content: headerSubTitle.content,
-            styles: headerSubTitle.styles,
-          }}
-          button={headerButton}
+        <Image
+          style={[styles.illustrationImage, contentImageStyles]}
+          source={contentImageSource}
         />
-        <Animated.View style={[styles.fixed, contentImageContainerStyles,
-          { opacity: imageOpacity, left: imagePosition }]}
-        >
-          <Image
-            style={[styles.illustrationImage, contentImageStyles]}
-            source={contentImageSource}
-          />
-        </Animated.View>
-        <ScrollView
-          showsHorizontalScrollIndicator={false}
-          horizontal
-          style={[styles.playSwipeContainer, scrollViewStyles]}
-          scrollEventThrottle={16}
-          onScroll={Animated.event(
-            [{
-              nativeEvent: {
-                contentOffset: {
-                  x: scrollX,
-                },
+      </Animated.View>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        horizontal
+        style={[styles.playSwipeContainer, scrollViewStyles]}
+        scrollEventThrottle={16}
+        onScroll={Animated.event(
+          [{
+            nativeEvent: {
+              contentOffset: {
+                x: scrollX,
               },
-            }],
-          )}
-          decelerationRate={0}
-          snapToInterval={210}
-          contentInset={{
-            top: 0,
-            left: SPACING_FOR_CARD_INSET,
-            bottom: 0,
-            right: SPACING_FOR_CARD_INSET,
-          }}
-          contentContainerStyle={{
-            paddingHorizontal: Platform.OS === 'android' ? SPACING_FOR_CARD_INSET : 0,
-          }}
-        >
-          {sectionItems.map((item) => (
-            <Movie
-              title={item.title}
-              description={item.description}
-              imageSource={item.imageSource}
-              style={{
-                sectionStyle: item.style.sectionStyle,
-
+            },
+          }],
+        )}
+        decelerationRate={0}
+        snapToInterval={210}
+        contentInset={{
+          top: 0,
+          left: SPACING_FOR_CARD_INSET,
+          bottom: 0,
+          right: SPACING_FOR_CARD_INSET,
+        }}
+        contentContainerStyle={{
+          paddingHorizontal: Platform.OS === 'android' ? SPACING_FOR_CARD_INSET : 0,
+        }}
+      >
+        {sectionItems.map((item) => {
+          const {
+            title, description, imageSource, sectionStyles,
+          } = item;
+          const {
+            sectionStyle,
+            sectionImageStyle,
+            sectionTitleStyle,
+            sectionSubTitleStyle,
+          } = sectionStyles || {};
+          return (
+            <Section
+              title={title}
+              description={description}
+              imageSource={imageSource}
+              sectionStyles={{
+                sectionStyle,
+                sectionImageStyle,
+                sectionTitleStyle,
+                sectionSubTitleStyle,
               }}
               key={item.title}
               onClick={item.onClick}
             />
-          ))}
-        </ScrollView>
-      </Animated.View>
-    </LinearGradient>
+          );
+        })}
+      </ScrollView>
+    </Animated.View>
   );
 }
 

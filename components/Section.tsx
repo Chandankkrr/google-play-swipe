@@ -1,6 +1,5 @@
-/* eslint-disable no-use-before-define */
-/* eslint-disable react/jsx-filename-extension */
 /* eslint-disable no-unused-vars */
+/* eslint-disable no-use-before-define */
 import React from 'react';
 import {
   Image,
@@ -17,29 +16,29 @@ import {
   TextStyle,
 } from 'react-native';
 
-interface MovieProps {
-    title: string;
-    description: string;
-    imageSource: ImageSourcePropType;
-    onClick?: (ev: NativeSyntheticEvent<NativeTouchEvent>) => void;
-    style?: {
-      sectionStyle?: StyleProp<ViewStyle>,
-      sectionImageStyle?: StyleProp<ImageStyle>,
-      sectionTitleStyle?: StyleProp<TextStyle>,
-      sectionSubTitleStyle?: StyleProp<TextStyle>,
-    }
+interface SectionProps {
+  title: string;
+  description: string;
+  imageSource: ImageSourcePropType;
+  onClick?: (ev: NativeSyntheticEvent<NativeTouchEvent>) => void;
+  sectionStyles?: {
+    sectionStyle?: StyleProp<ViewStyle>,
+    sectionImageStyle?: StyleProp<ImageStyle>,
+    sectionTitleStyle?: StyleProp<TextStyle>,
+    sectionSubTitleStyle?: StyleProp<TextStyle>,
+  }
 }
 
-const Movie = (props: MovieProps) => {
+const Section = (props: SectionProps) => {
   const {
-    title, description, imageSource, style, onClick,
+    title, description, imageSource, sectionStyles, onClick,
   } = props;
   const {
     sectionStyle,
     sectionImageStyle,
     sectionTitleStyle,
     sectionSubTitleStyle,
-  } = style;
+  } = sectionStyles || {};
   return (
     <View style={[styles.section, sectionStyle]}>
       <TouchableOpacity
@@ -48,7 +47,7 @@ const Movie = (props: MovieProps) => {
         <View>
           <Image
             source={imageSource}
-            style={[styles.swipeImage, sectionImageStyle]}
+            style={[styles.sectionImage, sectionImageStyle]}
           />
         </View>
         <View>
@@ -73,7 +72,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
   },
-  swipeImage: {
+  sectionImage: {
     width: 125,
     height: 200,
     borderRadius: 10,
@@ -90,4 +89,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Movie;
+export default Section;

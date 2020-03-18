@@ -1,7 +1,7 @@
 export interface DataType {
   headerTitle: string;
   headerSubtitle: string;
-  data: ContentType[]
+  items: ContentType[]
 }
 
 export interface ContentType {
@@ -13,7 +13,7 @@ export interface ContentType {
 const data: DataType = {
   headerTitle: 'Rentals from $0.99',
   headerSubtitle: 'Discover a new favourite',
-  data: [
+  items: [
     {
       title: 'Knight and Day',
       description: '$0.99',
