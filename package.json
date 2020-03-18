@@ -1,4 +1,33 @@
 {
+  "name": "google-playswipe",
+  "author": {
+    "name": "Chandan Rauniyar",
+    "email": "chandankkrr@gmail.com",
+    "url": "https://chandankkrr.github.io"
+  },
+  "version": "0.0.1",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "private": false,
+  "homepage": "https://github.com/Chandankkrr/google-play-swipe",
+  "keywords": [
+    "timeline",
+    "react",
+    "component"
+  ],
+  "repository": {
+    "url": "https://github.com/Chandankkrr/google-play-swipe",
+    "type": "git"
+  },
+  "bugs": {
+    "url": "https://github.com/Chandankkrr/google-play-swipe/issues"
+  },
+  "main": "lib/Timeline.js",
+  "types": "lib/Timeline.d.ts",
+  "files": [
+    "lib"
+  ],
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
@@ -36,6 +65,5 @@
   },
   "jest": {
     "preset": "react-native"
-  },
-  "private": true
+  }
 }
