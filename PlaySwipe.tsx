@@ -215,7 +215,8 @@ const styles = StyleSheet.create({
   component: {
     flex: 1,
     backgroundColor: '#21D4FD',
-    padding: 15,
+    paddingTop: 15,
+    paddingBottom: 15,
   },
   playSwipeContainer: {
     backgroundColor: 'transparent',

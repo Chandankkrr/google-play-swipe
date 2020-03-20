@@ -52,6 +52,8 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    paddingLeft: 15,
+    paddingRight: 15,
   },
   headerTitle: {
     fontSize: 18,

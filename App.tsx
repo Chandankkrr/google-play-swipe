@@ -78,8 +78,9 @@ export default function App() {
             </TouchableOpacity>
           ),
           headerStyles: {
-            flex: 1,
-            padding: 15,
+            flex: 0.4,
+            paddingTop: 15,
+            paddingBottom: 15,
           },
         }}
         contentImage={{
