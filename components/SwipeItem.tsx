@@ -13,6 +13,7 @@ import {
   TouchableOpacity,
   ImageStyle,
   TextStyle,
+  ViewStyle,
 } from 'react-native';
 
 interface SwipeItemProps {
@@ -21,6 +22,7 @@ interface SwipeItemProps {
   imageSource: ImageSourcePropType;
   onClick?: (ev: NativeSyntheticEvent<NativeTouchEvent>) => void;
   styles?: {
+    sectionContainerStyle?: StyleProp<ViewStyle>,
     sectionTitleStyle?: StyleProp<TextStyle>,
     sectionSubTitleStyle?: StyleProp<TextStyle>,
     sectionImageStyle?: StyleProp<ImageStyle>,
@@ -32,13 +34,13 @@ const SwipeItem = (props: SwipeItemProps) => {
     title, description, imageSource, styles: sectionStyles, onClick,
   } = props;
   const {
-    sectionStyle,
+    sectionContainerStyle,
     sectionImageStyle,
     sectionTitleStyle,
     sectionSubTitleStyle,
   } = sectionStyles || {};
   return (
-    <View style={[styles.section, sectionStyle]}>
+    <View style={[styles.section, sectionContainerStyle]}>
       <TouchableOpacity
         onPress={onClick}
       >

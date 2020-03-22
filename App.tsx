@@ -103,6 +103,14 @@ export default function App() {
           swipeItems: {
             content: sectionItems,
             styles: {
+              sectionContainerStyle: {
+                width: 150,
+                height: 200,
+                marginTop: 10,
+                marginBottom: 10,
+                padding: 10,
+                borderRadius: 10,
+              },
               sectionImageStyle: {
                 width: 125,
                 height: 200,

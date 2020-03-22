@@ -47,7 +47,7 @@ interface FeaturedImage {
 }
 
 interface SectionStyles {
-  sectionStyle?: StyleProp<ViewStyle>,
+  sectionContainerStyle?: StyleProp<ViewStyle>,
   sectionImageStyle?: StyleProp<ImageStyle>,
   sectionTitleStyle?: StyleProp<TextStyle>,
   sectionSubTitleStyle?: StyleProp<TextStyle>
@@ -138,6 +138,7 @@ export default function PlaySwipe(props: PlaySwipeProps) {
   } = swipeItems;
 
   const {
+    sectionContainerStyle,
     sectionImageStyle,
     sectionTitleStyle,
     sectionSubTitleStyle,
@@ -243,6 +244,7 @@ export default function PlaySwipe(props: PlaySwipeProps) {
                 description={description}
                 imageSource={imageSource}
                 styles={{
+                  sectionContainerStyle,
                   sectionTitleStyle,
                   sectionSubTitleStyle,
                   sectionImageStyle,
