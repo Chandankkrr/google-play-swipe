@@ -1,20 +1,28 @@
 {
   "name": "google-playswipe",
+  "description": "React Native component that that mimics the UI present in Google Play Store, Movies & TV",
   "author": {
     "name": "Chandan Rauniyar",
     "email": "chandankkrr@gmail.com",
     "url": "https://chandankkrr.github.io"
   },
-  "version": "0.0.2",
+  "version": "0.0.3",
+  "license": "MIT",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
   "private": false,
   "homepage": "https://github.com/Chandankkrr/google-play-swipe",
   "keywords": [
+    "react native",
+    "reactnative",
+    "react-native",
+    "react-native-component",
     "react",
     "google play",
-    "swipe"
+    "swipe",
+    "android",
+    "ios"
   ],
   "repository": {
     "url": "https://github.com/Chandankkrr/google-play-swipe",
