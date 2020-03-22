@@ -10,26 +10,24 @@ import {
   NativeSyntheticEvent,
   NativeTouchEvent,
   StyleProp,
-  ViewStyle,
   TouchableOpacity,
   ImageStyle,
   TextStyle,
 } from 'react-native';
 
-interface SectionItemProps {
+interface SwipeItemProps {
   title: string;
   description: string;
   imageSource: ImageSourcePropType;
   onClick?: (ev: NativeSyntheticEvent<NativeTouchEvent>) => void;
   styles?: {
-    sectionStyle?: StyleProp<ViewStyle>,
     sectionTitleStyle?: StyleProp<TextStyle>,
     sectionSubTitleStyle?: StyleProp<TextStyle>,
     sectionImageStyle?: StyleProp<ImageStyle>,
   }
 }
 
-const SectionItem = (props: SectionItemProps) => {
+const SwipeItem = (props: SwipeItemProps) => {
   const {
     title, description, imageSource, styles: sectionStyles, onClick,
   } = props;
@@ -89,4 +87,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SectionItem;
+export default SwipeItem;

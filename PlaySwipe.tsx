@@ -17,9 +17,10 @@ import {
   ViewStyle,
   ImageStyle,
   TextStyle,
+  View,
 } from 'react-native';
 import SectionHeader from './components/SectionHeader';
-import SectionItem from './components/SectionItem';
+import SwipeItem from './components/SwipeItem';
 import { DataType } from './data';
 
 
@@ -30,10 +31,10 @@ interface Header {
     headerButton: JSX.Element,
   }
   styles?:{
+    sectionHeaderStyles?: StyleProp<ViewStyle>;
     headerViewStyles?: StyleProp<ViewStyle>;
     headerTitleStyles?: StyleProp<TextStyle>;
     headerSubTitleStyles?: StyleProp<TextStyle>;
-    headerButtonStyles?: StyleProp<ViewStyle>
   }
 }
 
@@ -76,20 +77,23 @@ interface PlaySwipeProps {
   content: DataType,
   header: Header,
   featuredImage: FeaturedImage;
-  sectionItems: {
+  swipeContainer:{
+  styles?: StyleProp<ViewStyle>,
+  swipeItems: {
     content: SectionType[],
     styles?: SectionStyles
   },
+},
   backgroundTransition?: BackgroundTransition;
   interpolations?: HorizontalScrollInterpolations;
-  scrollViewStyles: StyleProp<ViewStyle>,
+  scrollViewStyles?: StyleProp<ViewStyle>,
 }
 
 export default function PlaySwipe(props: PlaySwipeProps) {
   const {
     header,
     featuredImage,
-    sectionItems,
+    swipeContainer,
     backgroundTransition,
     interpolations,
     scrollViewStyles,
@@ -107,6 +111,7 @@ export default function PlaySwipe(props: PlaySwipeProps) {
   } = headerContent;
 
   const {
+    sectionHeaderStyles,
     headerViewStyles,
     headerTitleStyles,
     headerSubTitleStyles,
@@ -123,16 +128,20 @@ export default function PlaySwipe(props: PlaySwipeProps) {
   } = featuredImageStyles || {};
 
   const {
-    content: sectionItemContents,
-    styles: sectionItemStyle,
-  } = sectionItems;
+    swipeItems,
+    styles: swipeContainerStyles,
+  } = swipeContainer;
 
   const {
-    sectionStyle,
+    content: swipeContentItems,
+    styles: swipeContentStyles,
+  } = swipeItems;
+
+  const {
     sectionImageStyle,
     sectionTitleStyle,
     sectionSubTitleStyle,
-  } = sectionItemStyle || {};
+  } = swipeContentStyles || {};
 
   const {
     imageOpacityInterpolation,
@@ -172,12 +181,11 @@ export default function PlaySwipe(props: PlaySwipeProps) {
     });
 
   return (
-    <Animated.View style={[
-      headerStyles || styles.component,
+    <Animated.View style={[styles.component, headerViewStyles,
       { backgroundColor: transitionColor }]}
     >
       <SectionHeader
-        styles={headerViewStyles}
+        styles={sectionHeaderStyles}
         title={{
           content: headerTitle,
           styles: headerTitleStyles,
@@ -223,27 +231,28 @@ export default function PlaySwipe(props: PlaySwipeProps) {
           paddingHorizontal: Platform.OS === 'android' ? SPACING_FOR_CARD_INSET : 0,
         }}
       >
-        {sectionItemContents.map((item) => {
-          const {
-            title, description, imageSource,
-          } = item;
+        <View style={[styles.swipeContainerStyles, swipeContainerStyles]}>
+          {swipeContentItems.map((item) => {
+            const {
+              title, description, imageSource,
+            } = item;
 
-          return (
-            <SectionItem
-              title={title}
-              description={description}
-              imageSource={imageSource}
-              styles={{
-                sectionStyle,
-                sectionTitleStyle,
-                sectionSubTitleStyle,
-                sectionImageStyle,
-              }}
-              key={item.title}
-              onClick={item.onClick}
-            />
-          );
-        })}
+            return (
+              <SwipeItem
+                title={title}
+                description={description}
+                imageSource={imageSource}
+                styles={{
+                  sectionTitleStyle,
+                  sectionSubTitleStyle,
+                  sectionImageStyle,
+                }}
+                key={item.title}
+                onClick={item.onClick}
+              />
+            );
+          })}
+        </View>
       </ScrollView>
     </Animated.View>
   );
@@ -251,7 +260,7 @@ export default function PlaySwipe(props: PlaySwipeProps) {
 
 const styles = StyleSheet.create({
   component: {
-    flex: 1,
+    flex: 0.5,
     backgroundColor: '#21D4FD',
     paddingTop: 15,
     paddingBottom: 15,
@@ -259,6 +268,11 @@ const styles = StyleSheet.create({
   playSwipeContainer: {
     backgroundColor: 'transparent',
     paddingTop: 10,
+  },
+  swipeContainerStyles: {
+    flex: 1,
+    flexDirection: 'row',
+    marginLeft: 200,
   },
   section: {
     width: 150,

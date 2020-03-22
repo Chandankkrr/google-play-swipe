@@ -50,8 +50,14 @@ export default function App() {
             ),
           },
           styles: {
+            sectionHeaderStyles: {
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingLeft: 15,
+              paddingRight: 15,
+            },
             headerViewStyles: {
-              flex: 0.4,
+              flex: 0.5,
               paddingTop: 15,
               paddingBottom: 15,
             },
@@ -62,9 +68,6 @@ export default function App() {
             headerSubTitleStyles: {
               fontSize: 14,
               fontWeight: '200',
-            },
-            headerButtonStyles: {
-              backgroundColor: 'pink',
             },
           },
         }}
@@ -86,31 +89,35 @@ export default function App() {
           },
         }}
         scrollViewStyles={{
-          backgroundColor: 'transparent',
           paddingTop: 10,
         }}
         backgroundTransition={{
           transitionColors: ['#019ae6', '#33afed'],
-          transitionStyles: { flex: 0.5 },
         }}
-        sectionItems={{
-          content: sectionItems,
+        swipeContainer={{
           styles: {
-            //  sectionStyle: index === 0 ? { marginLeft: 200 } : null,
-            sectionImageStyle: {
-              width: 125,
-              height: 200,
-              borderRadius: 10,
-            },
-            sectionTitleStyle: {
-              fontSize: 14,
-              fontWeight: '300',
-              paddingTop: 15,
-            },
-            sectionSubTitleStyle: {
-              fontSize: 13,
-              fontWeight: '200',
-              color: '#3c709d',
+            flex: 1,
+            flexDirection: 'row',
+            marginLeft: 200,
+          },
+          swipeItems: {
+            content: sectionItems,
+            styles: {
+              sectionImageStyle: {
+                width: 125,
+                height: 200,
+                borderRadius: 10,
+              },
+              sectionTitleStyle: {
+                fontSize: 14,
+                fontWeight: '300',
+                paddingTop: 15,
+              },
+              sectionSubTitleStyle: {
+                fontSize: 13,
+                fontWeight: '200',
+                color: '#3c709d',
+              },
             },
           },
         }}

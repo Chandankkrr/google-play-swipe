@@ -29,10 +29,10 @@ interface SectionHeaderProps {
 
 const SectionHeader = (props: SectionHeaderProps) => {
   const {
-    styles: headerStyles, title, subTitle, button,
+    styles: sectionHeaderStyles, title, subTitle, button,
   } = props;
   return (
-    <View style={[styles.header, headerStyles]}>
+    <View style={[styles.header, sectionHeaderStyles]}>
       <View>
         <Text
           style={[styles.headerTitle, title.styles]}
