@@ -1,3 +1,5 @@
+![Node.js CI](https://github.com/Chandankkrr/google-play-swipe/workflows/Node.js%20CI/badge.svg)
+
 # google-play-swipe
 
 React Native component that that mimics the UI present in Google Play Store, Movies & TV
@@ -100,9 +102,9 @@ const sectionItems = items.map((item: ContentType) => (
 />
 ```
 
-![screenshot_1](https://raw.githubusercontent.com/Chandankkrr/google-play-swipe/master/screenshots/Screen%20Shot%202020-03-14%20at%2023.29.42.png)
+![screenshot_1](https://raw.githubusercontent.com/Chandankkrr/google-play-swipe/master/screenshots/screenshot_1.png)
 
-![screenshot_2](https://raw.githubusercontent.com/Chandankkrr/google-play-swipe/master/screenshots/Screen%20Shot%202020-03-14%20at%2023.29.48.png)
+![screenshot_2](https://raw.githubusercontent.com/Chandankkrr/google-play-swipe/master/screenshots/screenshot_2.png)
 
 ## Contributing
 Feel free to open a new pull request or GitHub issue for any changes that can be made
