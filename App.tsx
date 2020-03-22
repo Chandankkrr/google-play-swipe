@@ -16,20 +16,17 @@ import data, { ContentType } from './data';
 import PlaySwipe, { SectionType } from './PlaySwipe';
 
 const { items } = data;
-const sectionItems = items.map(
-  (item: ContentType): SectionType => (
-    {
-      title: item.title,
-      description: item.description,
-      imageSource: {
-        uri: item.imageSource,
-        cache: 'default',
-      },
-      key: item.title,
-      onClick: () => Alert.alert(item.title),
-    }
-  ),
-);
+const sectionItems = items.map((item: ContentType) => (
+  {
+    ...item,
+    imageSource: {
+      uri: item.imageSource,
+      cache: 'default',
+    },
+    key: item.title,
+    onClick: () => Alert.alert(item.title),
+  }
+));
 
 export default function App() {
   return (
@@ -73,7 +70,7 @@ export default function App() {
         }}
         featuredImage={{
           source: {
-            uri: 'https://assets-ouch.icons8.com/preview/408/f73e918d-4493-4902-9d53-6facb9dc6b27.png',
+            uri: 'https://tinyurl.com/uf24w56',
             cache: 'default',
           },
           styles: {
