@@ -12,9 +12,9 @@
   "private": false,
   "homepage": "https://github.com/Chandankkrr/google-play-swipe",
   "keywords": [
-    "timeline",
     "react",
-    "component"
+    "google play",
+    "swipe"
   ],
   "repository": {
     "url": "https://github.com/Chandankkrr/google-play-swipe",
@@ -23,8 +23,8 @@
   "bugs": {
     "url": "https://github.com/Chandankkrr/google-play-swipe/issues"
   },
-  "main": "lib/Timeline.js",
-  "types": "lib/Timeline.d.ts",
+  "main": "lib/PlaySwipe.js",
+  "types": "lib/PlaySwipe.d.ts",
   "files": [
     "lib"
   ],
