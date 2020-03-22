@@ -16,22 +16,22 @@ import {
   TextStyle,
 } from 'react-native';
 
-interface SectionProps {
+interface SectionItemProps {
   title: string;
   description: string;
   imageSource: ImageSourcePropType;
   onClick?: (ev: NativeSyntheticEvent<NativeTouchEvent>) => void;
-  sectionStyles?: {
+  styles?: {
     sectionStyle?: StyleProp<ViewStyle>,
-    sectionImageStyle?: StyleProp<ImageStyle>,
     sectionTitleStyle?: StyleProp<TextStyle>,
     sectionSubTitleStyle?: StyleProp<TextStyle>,
+    sectionImageStyle?: StyleProp<ImageStyle>,
   }
 }
 
-const Section = (props: SectionProps) => {
+const SectionItem = (props: SectionItemProps) => {
   const {
-    title, description, imageSource, sectionStyles, onClick,
+    title, description, imageSource, styles: sectionStyles, onClick,
   } = props;
   const {
     sectionStyle,
@@ -89,4 +89,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Section;
+export default SectionItem;

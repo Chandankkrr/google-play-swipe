@@ -18,27 +18,31 @@ import {
   ImageStyle,
   TextStyle,
 } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import SectionHeader, { SectionTitle, SectionSubTitle } from './components/SectionHeader';
-import Section from './components/Section';
+import SectionHeader from './components/SectionHeader';
+import SectionItem from './components/SectionItem';
 import { DataType } from './data';
 
-interface ContentImage {
-  contentImageSource: ImageSourcePropType,
-  contentImageStyles?: StyleProp<ImageStyle>;
-  contentImageContainerStyles?: StyleProp<ViewStyle>;
-}
-
-interface BackgroundTransition {
-  transitionColors?: string[];
-  transitionStyles?: StyleProp<ViewStyle>;
-}
 
 interface Header {
-  headerTitle: SectionTitle,
-  headerSubTitle: SectionSubTitle,
-  headerButton: JSX.Element,
-  headerStyles: StyleProp<ViewStyle>
+  content:{
+    headerTitle: string,
+    headerSubTitle: string,
+    headerButton: JSX.Element,
+  }
+  styles?:{
+    headerViewStyles?: StyleProp<ViewStyle>;
+    headerTitleStyles?: StyleProp<TextStyle>;
+    headerSubTitleStyles?: StyleProp<TextStyle>;
+    headerButtonStyles?: StyleProp<ViewStyle>
+  }
+}
+
+interface FeaturedImage {
+  source: ImageSourcePropType,
+  styles?:{
+    imageContainerStyles?: StyleProp<ViewStyle>;
+    imageStyles?: StyleProp<ImageStyle>;
+  }
 }
 
 interface SectionStyles {
@@ -57,6 +61,11 @@ export interface SectionType {
   sectionStyles?: SectionStyles
 }
 
+interface BackgroundTransition {
+  transitionColors?: string[];
+  transitionStyles?: StyleProp<ViewStyle>;
+}
+
 interface HorizontalScrollInterpolations {
   imageOpacityInterpolation?: Animated.InterpolationConfigType,
   backgroundTransitionColorInterpolation?: Animated.InterpolationConfigType,
@@ -65,9 +74,12 @@ interface HorizontalScrollInterpolations {
 
 interface PlaySwipeProps {
   content: DataType,
-  contentImage: ContentImage;
   header: Header,
-  sectionItems: SectionType[],
+  featuredImage: FeaturedImage;
+  sectionItems: {
+    content: SectionType[],
+    styles?: SectionStyles
+  },
   backgroundTransition?: BackgroundTransition;
   interpolations?: HorizontalScrollInterpolations;
   scrollViewStyles: StyleProp<ViewStyle>,
@@ -76,7 +88,7 @@ interface PlaySwipeProps {
 export default function PlaySwipe(props: PlaySwipeProps) {
   const {
     header,
-    contentImage,
+    featuredImage,
     sectionItems,
     backgroundTransition,
     interpolations,
@@ -84,14 +96,43 @@ export default function PlaySwipe(props: PlaySwipeProps) {
   } = props;
 
   const {
-    contentImageSource,
-    contentImageStyles,
-    contentImageContainerStyles,
-  } = contentImage;
+    content: headerContent,
+    styles: headerStyles,
+  } = header;
 
   const {
-    headerTitle, headerSubTitle, headerButton, headerStyles,
-  } = header;
+    headerTitle,
+    headerSubTitle,
+    headerButton,
+  } = headerContent;
+
+  const {
+    headerViewStyles,
+    headerTitleStyles,
+    headerSubTitleStyles,
+  } = headerStyles || {};
+
+  const {
+    source: featuredImageSource,
+    styles: featuredImageStyles,
+  } = featuredImage;
+
+  const {
+    imageContainerStyles,
+    imageStyles,
+  } = featuredImageStyles || {};
+
+  const {
+    content: sectionItemContents,
+    styles: sectionItemStyle,
+  } = sectionItems;
+
+  const {
+    sectionStyle,
+    sectionImageStyle,
+    sectionTitleStyle,
+    sectionSubTitleStyle,
+  } = sectionItemStyle || {};
 
   const {
     imageOpacityInterpolation,
@@ -136,22 +177,23 @@ export default function PlaySwipe(props: PlaySwipeProps) {
       { backgroundColor: transitionColor }]}
     >
       <SectionHeader
+        styles={headerViewStyles}
         title={{
-          content: headerTitle.content,
-          styles: headerTitle.styles,
+          content: headerTitle,
+          styles: headerTitleStyles,
         }}
         subTitle={{
-          content: headerSubTitle.content,
-          styles: headerSubTitle.styles,
+          content: headerSubTitle,
+          styles: headerSubTitleStyles,
         }}
         button={headerButton}
       />
-      <Animated.View style={[styles.fixed, contentImageContainerStyles,
+      <Animated.View style={[styles.fixed, imageContainerStyles,
         { opacity: imageOpacity, left: imagePosition }]}
       >
         <Image
-          style={[styles.illustrationImage, contentImageStyles]}
-          source={contentImageSource}
+          style={[styles.featuredImage, imageStyles]}
+          source={featuredImageSource}
         />
       </Animated.View>
       <ScrollView
@@ -167,6 +209,7 @@ export default function PlaySwipe(props: PlaySwipeProps) {
               },
             },
           }],
+          { useNativeDriver: true },
         )}
         decelerationRate={0}
         snapToInterval={210}
@@ -180,26 +223,21 @@ export default function PlaySwipe(props: PlaySwipeProps) {
           paddingHorizontal: Platform.OS === 'android' ? SPACING_FOR_CARD_INSET : 0,
         }}
       >
-        {sectionItems.map((item) => {
+        {sectionItemContents.map((item) => {
           const {
-            title, description, imageSource, sectionStyles,
+            title, description, imageSource,
           } = item;
-          const {
-            sectionStyle,
-            sectionImageStyle,
-            sectionTitleStyle,
-            sectionSubTitleStyle,
-          } = sectionStyles || {};
+
           return (
-            <Section
+            <SectionItem
               title={title}
               description={description}
               imageSource={imageSource}
-              sectionStyles={{
+              styles={{
                 sectionStyle,
-                sectionImageStyle,
                 sectionTitleStyle,
                 sectionSubTitleStyle,
+                sectionImageStyle,
               }}
               key={item.title}
               onClick={item.onClick}
@@ -230,7 +268,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
   },
-  illustrationImage: {
+  featuredImage: {
     width: 200,
     height: 265,
   },

@@ -8,6 +8,7 @@ import {
   View,
   StyleProp,
   TextStyle,
+  ViewStyle,
 } from 'react-native';
 
 interface SectionBase {
@@ -20,15 +21,18 @@ export interface SectionTitle extends SectionBase { }
 export interface SectionSubTitle extends SectionBase { }
 
 interface SectionHeaderProps {
+  styles: StyleProp<ViewStyle>,
   title: SectionTitle,
   subTitle: SectionSubTitle,
   button: JSX.Element
 }
 
 const SectionHeader = (props: SectionHeaderProps) => {
-  const { title, subTitle, button } = props;
+  const {
+    styles: headerStyles, title, subTitle, button,
+  } = props;
   return (
-    <View style={styles.header}>
+    <View style={[styles.header, headerStyles]}>
       <View>
         <Text
           style={[styles.headerTitle, title.styles]}
