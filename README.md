@@ -29,26 +29,79 @@ import PlaySwipe from 'google-playswipe';
 
 Add a `<PlaySwipe />` tag within your component with required props.
 
+## Minimal configuration
+
 ```react
 const data = {
     headerTitle: 'Rentals from $0.99',
     headerSubtitle: 'Discover a new favourite',
     items: [
-      { title: 'Knight and Day', description: '$0.99', imageSource: 'image_1.png' },
-      { title: 'The Vanishing',  description: '$1.99', imageSource: 'image_2.png' },
-      { title: 'Ultimate Avengers 2', description: '$1.99', imageSource: 'image_3.png' },
-      { title: 'The Humanity Bureau', description: '$4.99', imageSource: 'image_4.png' },
-    ],
+      { title: 'Knight and Day', description: '$0.99', imageSource: 'https://tinyurl.com/play-swipe-1' },
+      { title: 'The Vanishing',  description: '$1.99', imageSource: 'https://tinyurl.com/play-swipe-2' },
+      { title: 'Ultimate Avengers 2', description: '$1.99', imageSource: 'https://tinyurl.com/play-swipe-3' },
+      { title: 'The Humanity Bureau', description: '$4.99', imageSource: 'https://tinyurl.com/play-swipe-4' },
+      { title: 'Trading Paint', description: '$1.99', imageSource: 'https://tinyurl.com/play-swipe-5' }
+    ]
   };
 
 const { headerTitle, headerSubtitle, items } = data;
-const sectionItems = items.map((item: ContentType) => (
-    {
+const sectionItems = items.map((item) => (
+  {
       ...item,
-      imageSource: {
-        uri: item.imageSource,
-        cache: 'default',
+      imageSource: { uri: item.imageSource } or require('path to local image'),
+      key: item.title,
+      onClick: () => Alert.alert(item.title),
+    }
+  ),
+);
+
+<PlaySwipe
+  content={data}
+  header={{
+    content: {
+      headerTitle: headerTitle,
+      headerSubTitle: headerSubtitle,
+      headerButton: (
+        <TouchableOpacity
+          onPress={() => Alert.alert('Discover more!')}
+        >
+          <Ionicons name="md-arrow-forward" size={28} color="#58646e" />
+        </TouchableOpacity>
+      ),
+    },
+  }}
+  featuredImage={{
+      source: { 
+        uri: 'https://tinyurl.com/play-swipe'
       },
+  }}
+  swipeContainer={{
+    swipeItems: {
+      content: sectionItems,
+    },
+  }}
+/>
+```
+## Full customization
+
+```react
+const data = {
+    headerTitle: 'Rentals from $0.99',
+    headerSubtitle: 'Discover a new favourite',
+    items: [
+      { title: 'Knight and Day', description: '$0.99', imageSource: 'https://tinyurl.com/play-swipe-1' },
+      { title: 'The Vanishing',  description: '$1.99', imageSource: 'https://tinyurl.com/play-swipe-2' },
+      { title: 'Ultimate Avengers 2', description: '$1.99', imageSource: 'https://tinyurl.com/play-swipe-3' },
+      { title: 'The Humanity Bureau', description: '$4.99', imageSource: 'https://tinyurl.com/play-swipe-4' },
+      { title: 'Trading Paint', description: '$1.99', imageSource: 'https://tinyurl.com/play-swipe-5' }
+    ]
+  };
+
+const { headerTitle, headerSubtitle, items } = data;
+const sectionItems = items.map((item) => (
+  {
+      ...item,
+      imageSource: { uri: item.imageSource } or require('path to local image'),
       key: item.title,
       onClick: () => Alert.alert(item.title),
     }
@@ -77,28 +130,44 @@ const sectionItems = items.map((item: ContentType) => (
     },
   }}
   featuredImage={{
-      source: { uri: 'https://tinyurl.com/uf24w56', cache: 'default' },
+      source: { 
+        uri: 'https://tinyurl.com/uf24w56
+        },
       styles: {
         imageContainerStyles: { position: 'absolute', top: 50, right: 0 },
         imageStyles: { width: 200, height: 265 },
       },
   }}
     scrollViewStyles={{ paddingTop: 10 }}
-    backgroundTransition={{
-      transitionColors: ['#019ae6', '#33afed'],
-  }}
     swipeContainer={{
       styles: { flex: 1, flexDirection: 'row', marginLeft: 200 },
       swipeItems: {
         content: sectionItems,
         styles: {
-          sectionContainerStyle: { width: 150, height: 200, marginTop: 10, marginBottom: 10, padding: 10, borderRadius: 10 },
+          sectionContainerStyle: { width: 150, height: 200, marginTop: 10, marginBottom: 10 },
           sectionImageStyle: { width: 125, height: 200, borderRadius: 10 },
           sectionTitleStyle: { fontSize: 14, fontWeight: '300', paddingTop: 15 },
           sectionSubTitleStyle: { fontSize: 13, fontWeight: '200', color: '#3c709d' },
         },
       },
    }}
+    interpolations={{
+      backgroundTransitionColorInterpolation: {
+        inputRange: [50, 100],
+        outputRange: ['#FBAB7E', '#F7CE68'],
+        extrapolate: 'clamp',
+      },
+      imagePositionInterpolation:{
+        inputRange: [0, 100],
+        outputRange: [0, -50],
+        extrapolate: 'clamp',
+      },
+      imageOpacityInterpolation: {
+        inputRange: [0, 100],
+        outputRange: [1, 0.1],
+        extrapolate: 'clamp',
+      }
+    }}
 />
 ```
 
