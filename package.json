@@ -6,7 +6,7 @@
     "email": "chandankkrr@gmail.com",
     "url": "https://chandankkrr.github.io"
   },
-  "version": "0.0.5",
+  "version": "0.0.6",
   "license": "MIT",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
