@@ -152,17 +152,17 @@ const sectionItems = items.map((item) => (
       },
    }}
     interpolations={{
-      backgroundTransitionColorInterpolation: {
+      backgroundTransitionInterpolationConfig: {
         inputRange: [50, 100],
         outputRange: ['#FBAB7E', '#F7CE68'],
         extrapolate: 'clamp',
       },
-      imagePositionInterpolation:{
+      imagePositionInterpolationConfig:{
         inputRange: [0, 100],
         outputRange: [0, -50],
         extrapolate: 'clamp',
       },
-      imageOpacityInterpolation: {
+      imageOpacityInterpolationConfig: {
         inputRange: [0, 100],
         outputRange: [1, 0.1],
         extrapolate: 'clamp',

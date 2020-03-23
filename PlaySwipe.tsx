@@ -268,7 +268,6 @@ const styles = StyleSheet.create({
   featuredImage: {
     width: 200,
     height: 265,
-    resizeMode: 'contain',
   },
   fixed: {
     position: 'absolute',

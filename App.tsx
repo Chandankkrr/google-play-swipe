@@ -12,16 +12,15 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Constants from 'expo-constants';
-import data, { ContentType } from './data';
-import PlaySwipe, { SectionType } from './PlaySwipe';
+import data from './data';
+import PlaySwipe from './PlaySwipe';
 
 const { items } = data;
-const sectionItems = items.map((item: ContentType) => (
+const sectionItems = items.map((item) => (
   {
     ...item,
     imageSource: {
       uri: item.imageSource,
-      cache: 'default',
     },
     key: item.title,
     onClick: () => Alert.alert(item.title),
@@ -87,9 +86,6 @@ export default function App() {
         }}
         scrollViewStyles={{
           paddingTop: 10,
-        }}
-        backgroundTransition={{
-          transitionColors: ['#019ae6', '#33afed'],
         }}
         swipeContainer={{
           styles: {
