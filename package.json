@@ -6,7 +6,7 @@
     "email": "chandankkrr@gmail.com",
     "url": "https://chandankkrr.github.io"
   },
-  "version": "0.0.4",
+  "version": "0.0.5",
   "license": "MIT",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
@@ -43,9 +43,8 @@
     "start": "react-native start",
     "test": "jest"
   },
-  "dependencies": {
+  "peerDependencies": {
     "expo": "~36.0.0",
-    "expo-linear-gradient": "^8.0.0",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
     "react-native": "~0.61.4",
