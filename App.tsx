@@ -70,7 +70,7 @@ export default function App() {
         }}
         featuredImage={{
           source: {
-            uri: 'https://tinyurl.com/uf24w56',
+            uri: 'https://tinyurl.com/play-swipe',
             cache: 'default',
           },
           styles: {

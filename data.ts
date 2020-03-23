@@ -17,27 +17,27 @@ const data: DataType = {
     {
       title: 'Knight and Day',
       description: '$0.99',
-      imageSource: 'http://thegioibluray.com/resources/200ceb26807d6bf99fd6f4f0d1ca54d4/1-HD%20LE%202/1137.jpg',
+      imageSource: 'https://tinyurl.com/play-swipe-1',
     },
     {
       title: 'The Vanishing',
       description: '$1.99',
-      imageSource: 'http://thegioibluray.com/resources/200ceb26807d6bf99fd6f4f0d1ca54d4/1%202D25G/B3864N.JPG',
+      imageSource: 'https://tinyurl.com/play-swipe-2',
     },
     {
       title: 'Ultimate Avengers 2',
       description: '$1.99',
-      imageSource: 'https://m.media-amazon.com/images/M/MV5BZjI3MTI5ZTYtZmNmNy00OGZmLTlhNWMtNjZiYmYzNDhlOGRkL2ltYWdlL2ltYWdlXkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_.png',
+      imageSource: 'https://tinyurl.com/play-swipe-3',
     },
     {
       title: 'The Humanity Bureau',
       description: '$4.99',
-      imageSource: 'http://thegioibluray.com/resources/200ceb26807d6bf99fd6f4f0d1ca54d4/1%202D25G/B3466N.JPG',
+      imageSource: 'https://tinyurl.com/play-swipe-4',
     },
     {
       title: 'Trading Paint',
       description: '$1.99',
-      imageSource: 'https://i0.wp.com/teaser-trailer.com/wp-content/uploads/Trading-Paint-movie-poster.jpg',
+      imageSource: 'https://tinyurl.com/play-swipe-5',
     },
   ],
 };

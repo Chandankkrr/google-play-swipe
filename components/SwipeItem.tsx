@@ -69,8 +69,6 @@ const styles = StyleSheet.create({
     height: 200,
     marginTop: 10,
     marginBottom: 10,
-    padding: 10,
-    borderRadius: 10,
   },
   sectionImage: {
     width: 125,

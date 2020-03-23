@@ -62,15 +62,10 @@ export interface SectionType {
   sectionStyles?: SectionStyles
 }
 
-interface BackgroundTransition {
-  transitionColors?: string[];
-  transitionStyles?: StyleProp<ViewStyle>;
-}
-
 interface HorizontalScrollInterpolations {
-  imageOpacityInterpolation?: Animated.InterpolationConfigType,
-  backgroundTransitionColorInterpolation?: Animated.InterpolationConfigType,
-  imagePositionInterpolation?: Animated.InterpolationConfigType,
+  imageOpacityInterpolationConfig?: Animated.InterpolationConfigType,
+  backgroundTransitionInterpolationConfig?: Animated.InterpolationConfigType,
+  imagePositionInterpolationConfig?: Animated.InterpolationConfigType,
 }
 
 interface PlaySwipeProps {
@@ -84,7 +79,6 @@ interface PlaySwipeProps {
     styles?: SectionStyles
   },
 },
-  backgroundTransition?: BackgroundTransition;
   interpolations?: HorizontalScrollInterpolations;
   scrollViewStyles?: StyleProp<ViewStyle>,
 }
@@ -94,7 +88,6 @@ export default function PlaySwipe(props: PlaySwipeProps) {
     header,
     featuredImage,
     swipeContainer,
-    backgroundTransition,
     interpolations,
     scrollViewStyles,
   } = props;
@@ -145,23 +138,23 @@ export default function PlaySwipe(props: PlaySwipeProps) {
   } = swipeContentStyles || {};
 
   const {
-    imageOpacityInterpolation,
-    backgroundTransitionColorInterpolation,
-    imagePositionInterpolation,
+    imageOpacityInterpolationConfig,
+    backgroundTransitionInterpolationConfig,
+    imagePositionInterpolationConfig,
   } = interpolations || {};
 
   const [scrollX] = useState(new Animated.Value(0));
 
-  const imageOpacity = imageOpacityInterpolation
-    ? scrollX.interpolate(imageOpacityInterpolation)
+  const imageOpacity = imageOpacityInterpolationConfig
+    ? scrollX.interpolate(imageOpacityInterpolationConfig)
     : scrollX.interpolate({
       inputRange: [0, 100],
       outputRange: [1, 0.3],
       extrapolate: 'clamp',
     });
 
-  const imagePosition = imagePositionInterpolation
-    ? scrollX.interpolate(imagePositionInterpolation)
+  const imagePosition = imagePositionInterpolationConfig
+    ? scrollX.interpolate(imagePositionInterpolationConfig)
     : scrollX.interpolate({
       inputRange: [0, 100],
       outputRange: [0, -50],
@@ -169,15 +162,12 @@ export default function PlaySwipe(props: PlaySwipeProps) {
     });
 
   const SPACING_FOR_CARD_INSET = Dimensions.get('window').width * 0.1 - 10;
-  const {
-    transitionColors = ['#019ae6', '#33afed'],
-  } = backgroundTransition || {};
 
-  const transitionColor = backgroundTransitionColorInterpolation
-    ? scrollX.interpolate(backgroundTransitionColorInterpolation)
+  const transitionColor = backgroundTransitionInterpolationConfig
+    ? scrollX.interpolate(backgroundTransitionInterpolationConfig)
     : scrollX.interpolate({
       inputRange: [0, 100],
-      outputRange: transitionColors,
+      outputRange: ['#019ae6', '#33afed'],
       extrapolate: 'clamp',
     });
 
@@ -218,10 +208,9 @@ export default function PlaySwipe(props: PlaySwipeProps) {
               },
             },
           }],
-          { useNativeDriver: true },
         )}
         decelerationRate={0}
-        snapToInterval={210}
+        snapToInterval={200}
         contentInset={{
           top: 0,
           left: SPACING_FOR_CARD_INSET,
@@ -276,17 +265,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginLeft: 200,
   },
-  section: {
-    width: 150,
-    height: 200,
-    marginTop: 10,
-    marginBottom: 10,
-    padding: 10,
-    borderRadius: 10,
-  },
   featuredImage: {
     width: 200,
     height: 265,
+    resizeMode: 'contain',
   },
   fixed: {
     position: 'absolute',
