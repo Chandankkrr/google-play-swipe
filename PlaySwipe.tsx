@@ -19,15 +19,13 @@ import {
   TextStyle,
   View,
 } from 'react-native';
-import SectionHeader from './components/SectionHeader';
-import SwipeItem from './components/SwipeItem';
-import { DataType } from './data';
-
+import Header from './components/Header';
+import Card from './components/Card';
 
 interface Header {
   content:{
     headerTitle: string,
-    headerSubTitle: string,
+    headerSubTitle?: string,
     headerButton: JSX.Element,
   }
   styles?:{
@@ -53,9 +51,9 @@ interface SectionStyles {
   sectionSubTitleStyle?: StyleProp<TextStyle>
 }
 
-export interface SectionType {
+export interface Card {
   title: string;
-  description: string;
+  description?: string;
   imageSource: ImageSourcePropType;
   key: string | number;
   onClick?: (ev: NativeSyntheticEvent<NativeTouchEvent>) => void;
@@ -63,33 +61,31 @@ export interface SectionType {
 }
 
 interface HorizontalScrollInterpolations {
-  imageOpacityInterpolationConfig?: Animated.InterpolationConfigType,
-  backgroundTransitionInterpolationConfig?: Animated.InterpolationConfigType,
-  imagePositionInterpolationConfig?: Animated.InterpolationConfigType,
+  imageOpacityInterpolationConfig?: Animated.InterpolationConfigType;
+  backgroundTransitionInterpolationConfig?: Animated.InterpolationConfigType;
+  imagePositionInterpolationConfig?: Animated.InterpolationConfigType;
+}
+
+interface CardItems {
+    content: Card[];
+    styles?: SectionStyles;
 }
 
 interface PlaySwipeProps {
-  content: DataType,
-  header: Header,
+  header: Header;
   featuredImage: FeaturedImage;
-  swipeContainer:{
-  styles?: StyleProp<ViewStyle>,
-  swipeItems: {
-    content: SectionType[],
-    styles?: SectionStyles
-  },
-},
+  cardItems: CardItems;
+  swipeContainerStyles?: StyleProp<ViewStyle>;
   interpolations?: HorizontalScrollInterpolations;
-  scrollViewStyles?: StyleProp<ViewStyle>,
 }
 
 export default function PlaySwipe(props: PlaySwipeProps) {
   const {
     header,
     featuredImage,
-    swipeContainer,
+    cardItems,
+    swipeContainerStyles,
     interpolations,
-    scrollViewStyles,
   } = props;
 
   const {
@@ -121,21 +117,16 @@ export default function PlaySwipe(props: PlaySwipeProps) {
   } = featuredImageStyles || {};
 
   const {
-    swipeItems,
-    styles: swipeContainerStyles,
-  } = swipeContainer;
-
-  const {
-    content: swipeContentItems,
-    styles: swipeContentStyles,
-  } = swipeItems;
+    content: cardItemContent,
+    styles: cardItemStyles,
+  } = cardItems;
 
   const {
     sectionContainerStyle,
     sectionImageStyle,
     sectionTitleStyle,
     sectionSubTitleStyle,
-  } = swipeContentStyles || {};
+  } = cardItemStyles || {};
 
   const {
     imageOpacityInterpolationConfig,
@@ -172,33 +163,34 @@ export default function PlaySwipe(props: PlaySwipeProps) {
     });
 
   return (
-    <Animated.View style={[styles.component, headerViewStyles,
+    <Animated.View style={[headerViewStyles || styles.component,
       { backgroundColor: transitionColor }]}
     >
-      <SectionHeader
+      <Header
         styles={sectionHeaderStyles}
         title={{
           content: headerTitle,
           styles: headerTitleStyles,
         }}
-        subTitle={{
+        description={{
           content: headerSubTitle,
           styles: headerSubTitleStyles,
         }}
         button={headerButton}
       />
-      <Animated.View style={[styles.fixed, imageContainerStyles,
+      <Animated.View style={[imageContainerStyles || styles.fixed,
         { opacity: imageOpacity, left: imagePosition }]}
       >
         <Image
-          style={[styles.featuredImage, imageStyles]}
+          style={[imageStyles || styles.featuredImage]}
           source={featuredImageSource}
         />
       </Animated.View>
       <ScrollView
         showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
         horizontal
-        style={[styles.playSwipeContainer, scrollViewStyles]}
+        style={styles.playSwipeContainer}
         scrollEventThrottle={16}
         onScroll={Animated.event(
           [{
@@ -210,7 +202,7 @@ export default function PlaySwipe(props: PlaySwipeProps) {
           }],
         )}
         decelerationRate={0}
-        snapToInterval={200}
+        snapToInterval={150}
         contentInset={{
           top: 0,
           left: SPACING_FOR_CARD_INSET,
@@ -221,22 +213,22 @@ export default function PlaySwipe(props: PlaySwipeProps) {
           paddingHorizontal: Platform.OS === 'android' ? SPACING_FOR_CARD_INSET : 0,
         }}
       >
-        <View style={[styles.swipeContainerStyles, swipeContainerStyles]}>
-          {swipeContentItems.map((item) => {
+        <View style={[swipeContainerStyles || styles.swipeContainerStyles]}>
+          {cardItemContent.map((item) => {
             const {
               title, description, imageSource,
             } = item;
 
             return (
-              <SwipeItem
+              <Card
                 title={title}
                 description={description}
                 imageSource={imageSource}
                 styles={{
-                  sectionContainerStyle,
-                  sectionTitleStyle,
-                  sectionSubTitleStyle,
-                  sectionImageStyle,
+                  cardContainerStyle: sectionContainerStyle,
+                  cardTitleStyle: sectionTitleStyle,
+                  cardSubTitleStyle: sectionSubTitleStyle,
+                  cardImageStyle: sectionImageStyle,
                 }}
                 key={item.title}
                 onClick={item.onClick}
@@ -257,8 +249,8 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
   },
   playSwipeContainer: {
-    backgroundColor: 'transparent',
     paddingTop: 10,
+    marginRight: 10,
   },
   swipeContainerStyles: {
     flex: 1,

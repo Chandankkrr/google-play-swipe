@@ -1,6 +1,4 @@
-export interface DataType {
-  headerTitle: string;
-  headerSubtitle: string;
+export interface PlawSwipeData {
   items: ContentType[]
 }
 
@@ -10,29 +8,27 @@ export interface ContentType {
   imageSource: string;
 }
 
-const data: DataType = {
-  headerTitle: 'Rentals from $0.99',
-  headerSubtitle: 'Discover a new favourite',
+const data: PlawSwipeData = {
   items: [
     {
       title: 'Knight and Day',
       description: '$0.99',
-      imageSource: 'https://tinyurl.com/play-swipe-1',
+      imageSource: 'https://www.gstatic.com/tv/thumb/v22vodart/7963670/p7963670_v_v8_ah.jpg',
     },
     {
       title: 'The Vanishing',
       description: '$1.99',
-      imageSource: 'https://tinyurl.com/play-swipe-2',
+      imageSource: 'https://m.media-amazon.com/images/M/MV5BMTU5NDQxNzE0Ml5BMl5BanBnXkFtZTgwNDMwODE1NzM@._V1_.jpg',
     },
     {
-      title: 'Ultimate Avengers 2',
+      title: 'Ultimate Avengers',
       description: '$1.99',
       imageSource: 'https://tinyurl.com/play-swipe-3',
     },
     {
-      title: 'The Humanity Bureau',
+      title: 'Humanity Bureau',
       description: '$4.99',
-      imageSource: 'https://tinyurl.com/play-swipe-4',
+      imageSource: 'https://i.pinimg.com/originals/02/db/8a/02db8ab3e345325f275bc916258faf06.png',
     },
     {
       title: 'Trading Paint',

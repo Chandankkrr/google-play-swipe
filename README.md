@@ -7,18 +7,22 @@ React Native component that that mimics the UI present in Google Play Store, Mov
 * Fully customizable UI from opacity interpolation to animating featured image
 * Content is displayed inside of a customizable ScrollView component
 
+![screenshot_1](https://raw.githubusercontent.com/Chandankkrr/google-play-swipe/master/screenshots/screenshot_1.png)
+
+![screenshot_2](https://raw.githubusercontent.com/Chandankkrr/google-play-swipe/master/screenshots/screenshot_2.png)
+
 ## Installation
-
-Using yarn:
-
-```node
-yarn add google-playswipe
-```
 
 Using npm:
 
 ```node
 npm install google-playswipe
+```
+
+Using yarn:
+
+```node
+yarn add google-playswipe
 ```
 
 ## Usage
@@ -29,8 +33,7 @@ import PlaySwipe from 'google-playswipe';
 
 Add a `<PlaySwipe />` tag within your component with required props.
 
-## Minimal configuration
-
+### Data setup
 ```react
 const data = {
     headerTitle: 'Rentals from $0.99',
@@ -45,112 +48,81 @@ const data = {
   };
 
 const { headerTitle, headerSubtitle, items } = data;
-const sectionItems = items.map((item) => (
+const cardItems = items.map((item) => (
   {
       ...item,
       imageSource: { uri: item.imageSource } or require('path to local image'),
       key: item.title,
-      onClick: () => Alert.alert(item.title),
+      onClick: () => Alert.alert(item.title), // onclick handler for each card data item
     }
   ),
 );
+```
 
+### Minimal configuration
+```react
 <PlaySwipe
-  content={data}
   header={{
     content: {
-      headerTitle: headerTitle,
-      headerSubTitle: headerSubtitle,
+      headerTitle: 'Rentals from $0.99',
+      headerSubtitle: 'Discover a new favourite',
       headerButton: (
-        <TouchableOpacity
-          onPress={() => Alert.alert('Discover more!')}
-        >
+        <TouchableOpacity onPress={() => Alert.alert('Discover more!')}>
           <Ionicons name="md-arrow-forward" size={28} color="#58646e" />
         </TouchableOpacity>
       ),
     },
   }}
   featuredImage={{
-      source: { 
-        uri: 'https://tinyurl.com/play-swipe'
-      },
+    source: { uri: 'resource identifier for the image' } 
+      or
+    source: require('./path/to/image.png')
   }}
-  swipeContainer={{
-    swipeItems: {
-      content: sectionItems,
-    },
+  cardItems: {{
+      content: cardItems,
   }}
 />
 ```
-## Full customization
 
+### Full customization
 ```react
-const data = {
-    headerTitle: 'Rentals from $0.99',
-    headerSubtitle: 'Discover a new favourite',
-    items: [
-      { title: 'Knight and Day', description: '$0.99', imageSource: 'https://tinyurl.com/play-swipe-1' },
-      { title: 'The Vanishing',  description: '$1.99', imageSource: 'https://tinyurl.com/play-swipe-2' },
-      { title: 'Ultimate Avengers 2', description: '$1.99', imageSource: 'https://tinyurl.com/play-swipe-3' },
-      { title: 'The Humanity Bureau', description: '$4.99', imageSource: 'https://tinyurl.com/play-swipe-4' },
-      { title: 'Trading Paint', description: '$1.99', imageSource: 'https://tinyurl.com/play-swipe-5' }
-    ]
-  };
-
-const { headerTitle, headerSubtitle, items } = data;
-const sectionItems = items.map((item) => (
-  {
-      ...item,
-      imageSource: { uri: item.imageSource } or require('path to local image'),
-      key: item.title,
-      onClick: () => Alert.alert(item.title),
-    }
-  ),
-);
-
 <PlaySwipe
-  content={data}
   header={{
     content: {
-      headerTitle: headerTitle,
-      headerSubTitle: headerSubtitle,
+      headerTitle: 'Rentals from $0.99',
+      headerSubtitle: 'Discover a new favourite',
       headerButton: (
-        <TouchableOpacity
-          onPress={() => Alert.alert('Discover more!')}
-        >
+        <TouchableOpacity onPress={() => Alert.alert('Discover more!')}>
           <Ionicons name="md-arrow-forward" size={28} color="#58646e" />
         </TouchableOpacity>
       ),
     },
     styles: {
-      sectionHeaderStyles: { flexDirection: 'row', justifyContent: 'space-between', paddingLeft: 15, paddingRight: 15 },
-      headerViewStyles: { flex: 0.5, paddingTop: 15, paddingBottom: 15 },
-      headerTitleStyles: { fontSize: 18, fontWeight: '400' },
-      headerSubTitleStyles: { fontSize: 14, fontWeight: '200' },
+      sectionHeaderStyles:     // provide your custom styles
+      headerViewStyles:       // provide your custom styles
+      headerTitleStyles:     // provide your custom styles
+      headerSubTitleStyles: // provide your custom styles
     },
   }}
   featuredImage={{
-      source: { 
-        uri: 'https://tinyurl.com/uf24w56
-        },
+    source: { uri: 'resource identifier for the image' } 
+      or
+    source: require('./path/to/image.png')
+    styles: {
+        imageContainerStyles: // provide your custom styles
+        imageStyles:         // provide your custom styles
+      },
+    }}
+    swipeItems: {{
+      content: cardItems,
       styles: {
-        imageContainerStyles: { position: 'absolute', top: 50, right: 0 },
-        imageStyles: { width: 200, height: 265 },
+        sectionContainerStyle:   // provide your custom styles
+        sectionImageStyle:      // provide your custom styles
+        sectionTitleStyle:     // provide your custom styles
+        sectionSubTitleStyle: // provide your custom styles
       },
-  }}
-    scrollViewStyles={{ paddingTop: 10 }}
-    swipeContainer={{
-      styles: { flex: 1, flexDirection: 'row', marginLeft: 200 },
-      swipeItems: {
-        content: sectionItems,
-        styles: {
-          sectionContainerStyle: { width: 150, height: 200, marginTop: 10, marginBottom: 10 },
-          sectionImageStyle: { width: 125, height: 200, borderRadius: 10 },
-          sectionTitleStyle: { fontSize: 14, fontWeight: '300', paddingTop: 15 },
-          sectionSubTitleStyle: { fontSize: 13, fontWeight: '200', color: '#3c709d' },
-        },
-      },
-   }}
+    }},
+    swipeContainerStyles={{ // provide your custom styles }}
     interpolations={{
       backgroundTransitionInterpolationConfig: {
         inputRange: [50, 100],
@@ -171,12 +143,39 @@ const sectionItems = items.map((item) => (
 />
 ```
 
-![screenshot_1](https://raw.githubusercontent.com/Chandankkrr/google-play-swipe/master/screenshots/screenshot_1.png)
+## Components
 
-![screenshot_2](https://raw.githubusercontent.com/Chandankkrr/google-play-swipe/master/screenshots/screenshot_2.png)
+### Card
+
+| Name                      | Description                                   | Type                | Required  |
+|---------------------------|-----------------------------------------------|-------------------- |-----------|
+| title                     | Card tile                                     | String              | ✓         |     
+| descriptoin               | Card description                              | String              |           | 
+| imageSource               | Image to be dispalyed in the card             | ImageSourcePropType | ✓         | 
+| onClick                   | Handler function when a card is pressed       | NativeTouchEvent    |           | 
+| styles                    | Collection of styles for swipe item component | CardStyles          |           | 
+
+
+### Header
+
+| Name                      | Description                                                 | Type                  | Required  |
+|---------------------------|-------------------------------------------------------------|-----------------------|-----------|
+| title                     | Header tile                                                 | String                | ✓         |     
+| description               | Header description                                          | String                |           | 
+| button                    | Ideally a button or JSX element for the header component    | JSX.Element           | ✓         | 
+| styles                    | Collection of styles for header component                   | StyleProp<ViewStyle>  |           |
+
+### PlaySwipe
+| Name                      | Description                                                 | Type                            | Required  |
+|---------------------------|-------------------------------------------------------------|---------------------------------|-----------|    
+| header                    | Object that is required to build the header component       | Header                          | ✓         | 
+| featuredImage             | Featured image that will be displayed to the left of card ui| FeaturedImage                   | ✓         | 
+| cardItems                 | Object that contains the card item data and styles          | CardItems                       | ✓         | 
+| swipeContainerStyles      | Collection of styles for the card items swipe container     | StyleProp<ViewStyle>;           |          |
+| interpolations            | Object that contains interpolation for animations effects   | HorizontalScrollInterpolations  |           |
 
 ## Contributing
-Feel free to open a new pull request or GitHub issue for any changes that can be made
+Feel free to open a new pull request or GitHub issue for any changes.
 
 ## Author
 Chandan Rauniyar | [https://chandankkrr.github.io](https://chandankkrr.github.io)

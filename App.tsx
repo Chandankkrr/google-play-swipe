@@ -9,11 +9,14 @@ import {
   View,
   Alert,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Constants from 'expo-constants';
 import data from './data';
 import PlaySwipe from './PlaySwipe';
+
+const { width, height } = Dimensions.get('window');
 
 const { items } = data;
 const sectionItems = items.map((item) => (
@@ -32,11 +35,11 @@ export default function App() {
     <View style={styles.container}>
       <View style={styles.statusBar} />
       <PlaySwipe
-        content={data}
+       // content={data}
         header={{
           content: {
-            headerTitle: data.headerTitle,
-            headerSubTitle: data.headerSubtitle,
+            headerTitle: 'Rentals from $0.99',
+            headerSubTitle: 'Discover a new favourite',
             headerButton: (
               <TouchableOpacity
                 onPress={() => Alert.alert('Discover more!')}
@@ -58,11 +61,11 @@ export default function App() {
               paddingBottom: 15,
             },
             headerTitleStyles: {
-              fontSize: 18,
+              fontSize: 20,
               fontWeight: '400',
             },
             headerSubTitleStyles: {
-              fontSize: 14,
+              fontSize: 16,
               fontWeight: '200',
             },
           },
@@ -75,50 +78,43 @@ export default function App() {
           styles: {
             imageContainerStyles: {
               position: 'absolute',
-              top: 50,
+              top: height * (3.5 / 100),
               right: 0,
+              left: 0,
             },
             imageStyles: {
-              width: 200,
-              height: 265,
+              width: width * (45 / 100),
+              height: height * (45 / 100),
             },
           },
         }}
-        scrollViewStyles={{
-          paddingTop: 10,
+        swipeContainerStyles={{
+          flex: 1,
+          flexDirection: 'row',
+          marginLeft: width * (40 / 100),
         }}
-        swipeContainer={{
+        cardItems={{
+          content: sectionItems,
           styles: {
-            flex: 1,
-            flexDirection: 'row',
-            marginLeft: 200,
-          },
-          swipeItems: {
-            content: sectionItems,
-            styles: {
-              sectionContainerStyle: {
-                width: 150,
-                height: 200,
-                marginTop: 10,
-                marginBottom: 10,
-                padding: 10,
-                borderRadius: 10,
-              },
-              sectionImageStyle: {
-                width: 125,
-                height: 200,
-                borderRadius: 10,
-              },
-              sectionTitleStyle: {
-                fontSize: 14,
-                fontWeight: '300',
-                paddingTop: 15,
-              },
-              sectionSubTitleStyle: {
-                fontSize: 13,
-                fontWeight: '200',
-                color: '#3c709d',
-              },
+            sectionContainerStyle: {
+              marginTop: 10,
+              marginBottom: 10,
+              margin: 10,
+            },
+            sectionImageStyle: {
+              width: width * (35 / 100),
+              height: height * (25 / 100),
+              borderRadius: 15,
+            },
+            sectionTitleStyle: {
+              fontSize: 18,
+              fontWeight: '300',
+              paddingTop: 15,
+              marginBottom: 5,
+            },
+            sectionSubTitleStyle: {
+              fontSize: 16,
+              fontWeight: '200',
             },
           },
         }}

@@ -11,38 +11,38 @@ import {
   ViewStyle,
 } from 'react-native';
 
-interface SectionBase {
-  content: string;
+interface HeaderBase {
+  content?: string;
   styles?: StyleProp<TextStyle>;
 }
 
-export interface SectionTitle extends SectionBase { }
+export interface HeaderTitle extends HeaderBase { }
 
-export interface SectionSubTitle extends SectionBase { }
+export interface HeaderSubTitle extends HeaderBase { }
 
-interface SectionHeaderProps {
-  styles: StyleProp<ViewStyle>,
-  title: SectionTitle,
-  subTitle: SectionSubTitle,
+interface HeaderProps {
+  title: HeaderTitle,
+  description?: HeaderSubTitle,
   button: JSX.Element
+  styles: StyleProp<ViewStyle>,
 }
 
-const SectionHeader = (props: SectionHeaderProps) => {
+const Header = (props: HeaderProps) => {
   const {
-    styles: sectionHeaderStyles, title, subTitle, button,
-  } = props;
+    title, description, button, styles: headerStyles,
+  } = props || {};
   return (
-    <View style={[styles.header, sectionHeaderStyles]}>
+    <View style={headerStyles || styles.header}>
       <View>
         <Text
-          style={[styles.headerTitle, title.styles]}
+          style={title.styles || styles.headerTitle}
         >
           {title.content}
         </Text>
         <Text
-          style={[styles.headerSubTitle, subTitle.styles]}
+          style={description ? description.styles : styles.headerDescription}
         >
-          {subTitle.content}
+          {description ? description.content : null }
         </Text>
       </View>
       <View>
@@ -63,10 +63,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '400',
   },
-  headerSubTitle: {
+  headerDescription: {
     fontSize: 14,
     fontWeight: '200',
   },
 });
 
-export default SectionHeader;
+export default Header;
