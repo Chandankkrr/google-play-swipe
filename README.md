@@ -7,21 +7,24 @@ React Native component that that mimics the UI present in Google Play Store, Mov
 * Fully customizable UI from opacity interpolation to animating featured image
 * Content is displayed inside of a customizable ScrollView component
 
-![screenshot_1](https://raw.githubusercontent.com/Chandankkrr/google-play-swipe/master/screenshots/screenshot_1.png)
+<img src="https://github.com/Chandankkrr/google-play-swipe/blob/master/screenshots/screen_recording.gif?raw=true" width="1000">
 
-![screenshot_2](https://raw.githubusercontent.com/Chandankkrr/google-play-swipe/master/screenshots/screenshot_2.png)
+<img src="https://raw.githubusercontent.com/Chandankkrr/google-play-swipe/master/screenshots/screenshot_portrait.png" width="1000">
+
+<img src="https://raw.githubusercontent.com/Chandankkrr/google-play-swipe/master/screenshots/screenshot_landscape.png" width="1000">
+
 
 ## Installation
 
 Using npm:
 
-```node
+```javascript
 npm install google-playswipe
 ```
 
 Using yarn:
 
-```node
+```javascript
 yarn add google-playswipe
 ```
 
@@ -34,7 +37,7 @@ import PlaySwipe from 'google-playswipe';
 Add a `<PlaySwipe />` tag within your component with required props.
 
 ### Data setup
-```react
+```javascript
 const data = {
     headerTitle: 'Rentals from $0.99',
     headerSubtitle: 'Discover a new favourite',
@@ -60,7 +63,7 @@ const cardItems = items.map((item) => (
 ```
 
 ### Minimal configuration
-```react
+```javascript
 <PlaySwipe
   header={{
     content: {
@@ -78,14 +81,14 @@ const cardItems = items.map((item) => (
       or
     source: require('./path/to/image.png')
   }}
-  cardItems: {{
+  cardItems={{
       content: cardItems,
   }}
 />
 ```
 
 ### Full customization
-```react
+```javascript
 <PlaySwipe
   header={{
     content: {
@@ -113,7 +116,7 @@ const cardItems = items.map((item) => (
         imageStyles:         // provide your custom styles
       },
     }}
-    swipeItems: {{
+    cardItems={{
       content: cardItems,
       styles: {
         sectionContainerStyle:   // provide your custom styles
