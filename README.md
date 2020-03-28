@@ -9,11 +9,6 @@ React Native component that that mimics the UI present in Google Play Store, Mov
 
 <img src="https://github.com/Chandankkrr/google-play-swipe/blob/master/screenshots/screen_recording.gif?raw=true" width="1000">
 
-<img src="https://raw.githubusercontent.com/Chandankkrr/google-play-swipe/master/screenshots/screenshot_portrait.png" width="1000">
-
-<img src="https://raw.githubusercontent.com/Chandankkrr/google-play-swipe/master/screenshots/screenshot_landscape.png" width="1000">
-
-
 ## Installation
 
 Using npm:
