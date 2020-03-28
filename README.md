@@ -45,7 +45,7 @@ const data = {
     ]
   };
 
-const { headerTitle, headerSubtitle, items } = data;
+const { items } = data;
 const cardItems = items.map((item) => (
   {
       ...item,
