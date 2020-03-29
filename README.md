@@ -118,7 +118,16 @@ const cardItems = items.map((item) => (
         sectionSubTitleStyle: // provide your custom styles
       },
     }}
-    swipeContainerStyles={{ // provide your custom styles }}
+    scrollView={{
+      styles: // provide your custom styles,
+      showsHorizontalScrollIndicator: false,
+      horizontal: true,
+      scrollEventThrottle: 16,
+      decelerationRate: 0,
+      snapToInterval: 150,
+      contentInset: // provide custom insets,
+      contentContainerStyle: // provide your custom styles,
+    }}
     interpolations={{
       backgroundTransitionInterpolationConfig: {
         inputRange: [50, 100],
