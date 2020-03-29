@@ -1,29 +1,29 @@
 ![Node.js CI](https://github.com/Chandankkrr/google-play-swipe/workflows/Node.js%20CI/badge.svg)
 
-# google-play-swipe
+# 🚀 google-play-swipe
 
-React Native component that that mimics the UI present in Google Play Store, Movies & TV
+React Native component that mimics the UI present in Google Play Store, Movies & TV
 
 * Fully customizable UI from opacity interpolation to animating featured image
 * Content is displayed inside of a customizable ScrollView component
 
 <img src="https://github.com/Chandankkrr/google-play-swipe/blob/master/screenshots/screen_recording.gif?raw=true" width="1000">
 
-## Installation
+## ⚙️ Installation
 
-Using npm:
+☊ Using npm:
 
 ```javascript
 npm install google-playswipe
 ```
 
-Using yarn:
+🧶 Using yarn:
 
 ```javascript
 yarn add google-playswipe
 ```
 
-## Usage
+## ♨ Usage
 
 ```javascript
 import PlaySwipe from 'google-playswipe';
@@ -31,11 +31,9 @@ import PlaySwipe from 'google-playswipe';
 
 Add a `<PlaySwipe />` tag within your component with required props.
 
-### Data setup
+### 📦 Data setup
 ```javascript
 const data = {
-    headerTitle: 'Rentals from $0.99',
-    headerSubtitle: 'Discover a new favourite',
     items: [
       { title: 'Knight and Day', description: '$0.99', imageSource: 'https://tinyurl.com/play-swipe-1' },
       { title: 'The Vanishing',  description: '$1.99', imageSource: 'https://tinyurl.com/play-swipe-2' },
@@ -57,7 +55,7 @@ const cardItems = items.map((item) => (
 );
 ```
 
-### Minimal configuration
+### 📝 Minimal configuration
 ```javascript
 <PlaySwipe
   header={{
@@ -82,7 +80,7 @@ const cardItems = items.map((item) => (
 />
 ```
 
-### Full customization
+### 📝  Full customization
 ```javascript
 <PlaySwipe
   header={{
@@ -141,7 +139,7 @@ const cardItems = items.map((item) => (
 />
 ```
 
-## Components
+## 🕹️ Components
 
 ### Card
 
@@ -172,8 +170,8 @@ const cardItems = items.map((item) => (
 | swipeContainerStyles      | Collection of styles for the card items swipe container     | StyleProp<ViewStyle>;           |          |
 | interpolations            | Object that contains interpolation for animations effects   | HorizontalScrollInterpolations  |           |
 
-## Contributing
+## 🖋 Contributing
 Feel free to open a new pull request or GitHub issue for any changes.
 
-## Author
+## ✍️ Author
 Chandan Rauniyar | [https://chandankkrr.github.io](https://chandankkrr.github.io)
