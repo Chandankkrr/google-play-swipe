@@ -117,7 +117,7 @@ const cardItems = items.map((item) => (
         sectionTitleStyle:     // provide your custom styles
         sectionSubTitleStyle: // provide your custom styles
       },
-    }},
+    }}
     swipeContainerStyles={{ // provide your custom styles }}
     interpolations={{
       backgroundTransitionInterpolationConfig: {

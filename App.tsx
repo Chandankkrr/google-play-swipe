@@ -10,6 +10,7 @@ import {
   Alert,
   TouchableOpacity,
   Dimensions,
+  Platform,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Constants from 'expo-constants';
@@ -17,6 +18,7 @@ import data from './data';
 import PlaySwipe from './PlaySwipe';
 
 const { width, height } = Dimensions.get('window');
+const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 
 const { items } = data;
 const sectionItems = items.map((item) => (
@@ -35,7 +37,6 @@ export default function App() {
     <View style={styles.container}>
       <View style={styles.statusBar} />
       <PlaySwipe
-       // content={data}
         header={{
           content: {
             headerTitle: 'Rentals from $0.99',
@@ -88,14 +89,34 @@ export default function App() {
             },
           },
         }}
-        swipeContainerStyles={{
-          flex: 1,
-          flexDirection: 'row',
-          marginLeft: width * (40 / 100),
+        scrollView={{
+          styles: {
+            paddingTop: 10,
+            marginRight: 10,
+          },
+          showsHorizontalScrollIndicator: false,
+          horizontal: true,
+          scrollEventThrottle: 16,
+          decelerationRate: 0,
+          snapToInterval: 150,
+          contentInset: {
+            top: 0,
+            left: SPACING_FOR_CARD_INSET,
+            bottom: 0,
+            right: SPACING_FOR_CARD_INSET,
+          },
+          contentContainerStyle: {
+            paddingHorizontal: Platform.OS === 'android' ? SPACING_FOR_CARD_INSET : 0,
+          },
         }}
         cardItems={{
           content: sectionItems,
           styles: {
+            parentViewStyle: {
+              flex: 1,
+              flexDirection: 'row',
+              marginLeft: width * (40 / 100),
+            },
             sectionContainerStyle: {
               marginTop: 10,
               marginBottom: 10,

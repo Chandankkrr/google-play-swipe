@@ -18,6 +18,7 @@ import {
   ImageStyle,
   TextStyle,
   View,
+  Insets,
 } from 'react-native';
 import Header from './components/Header';
 import Card from './components/Card';
@@ -45,6 +46,7 @@ interface FeaturedImage {
 }
 
 interface SectionStyles {
+  parentViewStyle?: StyleProp<ViewStyle>,
   sectionContainerStyle?: StyleProp<ViewStyle>,
   sectionImageStyle?: StyleProp<ImageStyle>,
   sectionTitleStyle?: StyleProp<TextStyle>,
@@ -71,20 +73,31 @@ interface CardItems {
     styles?: SectionStyles;
 }
 
+interface ScrollViewContainer {
+  styles?: StyleProp<ViewStyle>;
+  showsHorizontalScrollIndicator?: boolean;
+  horizontal?: boolean;
+  scrollEventThrottle?: number;
+  decelerationRate?: 'fast' | 'normal' | number;
+  snapToInterval?: number;
+  contentInset?: Insets;
+  contentContainerStyle?: StyleProp<ViewStyle>;
+}
+
 interface PlaySwipeProps {
   header: Header;
   featuredImage: FeaturedImage;
   cardItems: CardItems;
-  swipeContainerStyles?: StyleProp<ViewStyle>;
+  scrollView?: ScrollViewContainer
   interpolations?: HorizontalScrollInterpolations;
 }
 
-export default function PlaySwipe(props: PlaySwipeProps) {
+const PlaySwipe = (props: PlaySwipeProps) => {
   const {
     header,
     featuredImage,
     cardItems,
-    swipeContainerStyles,
+    scrollView,
     interpolations,
   } = props;
 
@@ -117,11 +130,23 @@ export default function PlaySwipe(props: PlaySwipeProps) {
   } = featuredImageStyles || {};
 
   const {
+    styles: scrollViewStyles,
+    showsHorizontalScrollIndicator,
+    horizontal,
+    scrollEventThrottle,
+    decelerationRate,
+    snapToInterval,
+    contentInset,
+    contentContainerStyle,
+  } = scrollView || {};
+
+  const {
     content: cardItemContent,
     styles: cardItemStyles,
   } = cardItems;
 
   const {
+    parentViewStyle,
     sectionContainerStyle,
     sectionImageStyle,
     sectionTitleStyle,
@@ -187,11 +212,10 @@ export default function PlaySwipe(props: PlaySwipeProps) {
         />
       </Animated.View>
       <ScrollView
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        horizontal
-        style={styles.playSwipeContainer}
-        scrollEventThrottle={16}
+        showsHorizontalScrollIndicator={showsHorizontalScrollIndicator || false}
+        horizontal={horizontal || true}
+        style={scrollViewStyles || styles.playSwipeContainer}
+        scrollEventThrottle={scrollEventThrottle || 16}
         onScroll={Animated.event(
           [{
             nativeEvent: {
@@ -201,19 +225,19 @@ export default function PlaySwipe(props: PlaySwipeProps) {
             },
           }],
         )}
-        decelerationRate={0}
-        snapToInterval={150}
-        contentInset={{
+        decelerationRate={decelerationRate || 0}
+        snapToInterval={snapToInterval || 150}
+        contentInset={contentInset || {
           top: 0,
           left: SPACING_FOR_CARD_INSET,
           bottom: 0,
           right: SPACING_FOR_CARD_INSET,
         }}
-        contentContainerStyle={{
+        contentContainerStyle={contentContainerStyle || {
           paddingHorizontal: Platform.OS === 'android' ? SPACING_FOR_CARD_INSET : 0,
         }}
       >
-        <View style={[swipeContainerStyles || styles.swipeContainerStyles]}>
+        <View style={[parentViewStyle || styles.swipeContainerStyles]}>
           {cardItemContent.map((item) => {
             const {
               title, description, imageSource,
@@ -239,7 +263,7 @@ export default function PlaySwipe(props: PlaySwipeProps) {
       </ScrollView>
     </Animated.View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   component: {
@@ -267,3 +291,5 @@ const styles = StyleSheet.create({
     right: 0,
   },
 });
+
+export default PlaySwipe;
